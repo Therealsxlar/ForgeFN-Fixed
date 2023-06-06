@@ -1,8 +1,8 @@
 # ForgeFN-Fixed
 
-* This is the orignal(https://github.com/ForgeFN/Forge)[ForgeFN]
+* This is the orignal[ForgeFN](https://github.com/ForgeFN/Forge)
 
-![Discord Invite](https://discord.gg/reboot)
+[Join Reboot](https://discord.gg/reboot)
 
 # By me?
 * I fixed building the dll
