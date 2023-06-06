@@ -1,6 +1,6 @@
 # ForgeFN-Fixed
 
-* This is the orignal[ForgeFN](https://github.com/ForgeFN/Forge)
+* This is the orignal[ForgeFN] (https://github.com/ForgeFN/Forge)
 
 [Join Reboot](https://discord.gg/reboot)
 
@@ -8,7 +8,7 @@
 * I fixed building the dll
 * Going to fix pickaxes
 
-**Please keep in mind this is NOT made by me** 
+**Please keep in mind this is NOT made by me and I know a little bit of C++**
 
 ## This is the features
 - Proper looting
@@ -25,4 +25,3 @@
 - Pickup delay
 - Repairing
 - Killfeed
-
