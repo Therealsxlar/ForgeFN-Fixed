@@ -1,6 +1,6 @@
 # ForgeFN-Fixed
 
-* This is the orignal[ForgeFN] (https://github.com/ForgeFN/Forge)
+* This is the orignal [ForgeFN](https://github.com/ForgeFN/Forge)
 
 [Join Reboot](https://discord.gg/reboot)
 
