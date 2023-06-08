@@ -1,5 +1,8 @@
 # ForgeFN-Fixed
 
+**UPDATE 6/8/23 - I WILL BE UPLOADING IT SOON**
+
+
 * This is the orignal [ForgeFN](https://github.com/ForgeFN/Forge)
 
 [Join Reboot](https://discord.gg/reboot)
@@ -9,7 +12,6 @@
 * Going to fix pickaxes
 
 **Please keep in mind this is NOT made by me and I know a little bit of C++**
-**UPDATE 6/8/23 - I WILL BE UPLOADING IT SOON**
 
 ## This is the features
 - Proper looting
