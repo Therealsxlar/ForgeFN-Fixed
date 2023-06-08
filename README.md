@@ -1,34 +1,37 @@
-# ForgeFN-Fixed
+# Forge
+Fortnite gameserver for 10.40.
 
-**UPDATE 6/8/23 - I WILL BE UPLOADING IT SOON**
+Main features:
 
+- proper looting
+- chest stars
+- vending machine colors
+- teams
+- reboot cards
+- directional fix + weakspot fix
+- vehicles
+- semi working creative (framework.h)
+- some little gameplay features
+- pretty accurate harvesting rate
+- run over ammo & mats
+- pickup delay
+- repairing
+- team map markers
+- killfeed works
 
-* This is the orignal [ForgeFN](https://github.com/ForgeFN/Forge)
+## Credits
 
-[Join Reboot](https://discord.gg/reboot)
+Zombie movement - Spooky<br>
+Creative Islands - Ender<br>
 
-# By me?
-* I fixed building the dll
-* Going to fix pickaxes - Equips Default Stiil
-* I patched mechs from spawning
-* I fixed a skydive glitch when touching ground it crashes - I made the mistake by adding the code 🤷‍♂️
+# How to use the cheat commands
 
-**I used some code from other sources**
+If you are hosting the server on a vps, then go to admin.h, it should be around line #17 and you should see "IPStr == "127.0.0.1".
+Right after this you want to add || "YOURIPHERE". So it would look something like 	
+```
+if (IPStr == "127.0.0.1" || IPStr == "29.238.102.57" || .....)
+```
 
-**Please keep in mind this is NOT made by me and I know a little bit of C++**
-
-## This is the features
-- Proper looting
-- Chest stars
-- Vending machine colors
-- Teams
-- Reboot cards
-- Directional fix + weakspot fix
-- Vehicles
-- Semi working creative (framework.h)
-- Some little gameplay features
-- Pretty accurate harvesting rate
-- Run over ammo & mats
-- Pickup delay
-- Repairing
-- Killfeed
+Download this dll https://drive.google.com/file/d/17YLfiQXVqMCuT_b1heiBfL_xmAb2nRtg/view?usp=sharing
+Now, inject this dll into the client. If you don't have an injector use UUU (https://mega.nz/file/MUhUlaqa#PI0ubSy_sQc4GouDPnZbulNSgQRUNIJeXNwLb2LnKhk).
+Each time you open the ip you have to click "F2", wait a few seconds and then you have cheatmanager. You are now able to open console and type "cheat help".
