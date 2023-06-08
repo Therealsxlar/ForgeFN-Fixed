@@ -9,7 +9,11 @@
 
 # By me?
 * I fixed building the dll
-* Going to fix pickaxes
+* Going to fix pickaxes - Equips Default Stiil
+* I patched mechs from spawning
+* I fixed a skydive glitch when touching ground it crashs - I made the mistake by adding the code 🤷‍♂️
+
+**I used some code from other sources**
 
 **Please keep in mind this is NOT made by me and I know a little bit of C++**
 
