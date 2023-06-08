@@ -11,7 +11,7 @@
 * I fixed building the dll
 * Going to fix pickaxes - Equips Default Stiil
 * I patched mechs from spawning
-* I fixed a skydive glitch when touching ground it crashs - I made the mistake by adding the code 🤷‍♂️
+* I fixed a skydive glitch when touching ground it crashes - I made the mistake by adding the code 🤷‍♂️
 
 **I used some code from other sources**
 
