@@ -1579,6 +1579,10 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		NewPlayer->CosmeticLoadoutPC.Pickaxe = PickaxeRaiders;
 	}
 	// Haven't tested it out might work tho! Might still give default pickaxe.........
+	
+	auto PickaxeDefinition = Globals::bNoMCP ? GetRandomObjectOfClass<UAthenaPickaxeItemDefinition>(true, true) :
+		NewPlayer->CosmeticLoadoutPC.Pickaxe; // UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Cosmetics/Pickaxes/DefaultPickaxe.DefaultPickaxe");
+	GiveItem(NewPlayer, PickaxeDefinition->WeaponDefinition, 1); // IDEA DOESN'T WORK....
 
 	for (int i = 0; i < GameMode->StartingItems.Num(); i++)
 	{
