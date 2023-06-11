@@ -1556,7 +1556,9 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 	PlayerState->bHasStartedPlaying = true;
 	PlayerState->OnRep_bHasStartedPlaying();
 
-	UAthenaPickaxeItemDefinition* PickaxeDefinition = nullptr; // Get's the pickaxe
+	UAthenaPickaxeItemDefinition* PickaxeDefinition = nullptr; // Hopefully this is new fix bro!
+	
+	static auto PickaxeRaiders = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");
 
 	if (Globals::bNoMCP) {
 		PickaxeDefinition = GetRandomObjectOfClass<UAthenaPickaxeItemDefinition>(true, true);
@@ -1568,13 +1570,15 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		}
 		else {
 			PickaxeDefinition = NewPlayer->CosmeticLoadoutPC.Pickaxe;
+			PickaxeRaiders = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");;
 		}
 	}
 
 	if (PickaxeDefinition != nullptr) {
-		GiveItem(NewPlayer, PickaxeDefinition->WeaponDefinition, 1);
+		GiveItem(NewPlayer, PickaxeDefinition->WeaponDefinition, 1); 
+		NewPlayer->CosmeticLoadoutPC.Pickaxe = PickaxeRaiders;
 	}
-	// Gives default pickaxe for some reason. I'm going to fix it soon.
+	// Haven't tested it out might work tho! Might still give default pickaxe.........
 
 	for (int i = 0; i < GameMode->StartingItems.Num(); i++)
 	{
