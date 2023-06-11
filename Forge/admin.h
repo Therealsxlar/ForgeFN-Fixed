@@ -270,38 +270,6 @@ void ServerCheatHook(AFortPlayerControllerAthena* PlayerController, FString Msg)
 			SendMessageToConsole(PlayerController, L"Done!");
 		}
 #ifdef DEVELOPER_BUILD
-		else if (Command == "spawnbrute")
-		{
-			auto Pawn = Cast<AFortPlayerPawnAthena>(ReceivingController->Pawn);
-
-			if (!Pawn)
-			{
-				SendMessageToConsole(PlayerController, L"No pawn!");
-				return;
-			}
-
-			auto SpawnerLoc = Pawn->K2_GetActorLocation();
-			SpawnerLoc.Z += 1000;
-
-			static auto icespawnerclass = UObject::FindObject<UBlueprintGeneratedClass>("/Game/Athena/Deimos/Spawners/RiftSpawners/BP_DeimosRift_Ice_Dynamic.BP_DeimosRift_Ice_Dynamic_C");
-			auto rift = nullptr; // GetWorld()->SpawnActor<ABuildingRift>(SpawnerLoc, FRotator{}, icespawnerclass);
-
-			static auto BruteClass = UObject::FindObject<UBlueprintGeneratedClass>("/Game/Athena/AI/Pawns/AthenaAI_Brute.AthenaAI_Brute_C");
-			// static auto BruteClass = UObject::FindObject<UBlueprintGeneratedClass>("/Game/Athena/Deimos/Pawns/Deimos_Fiend.Deimos_Fiend_C");
-			std::cout << "BruteClass: " << BruteClass << '\n';
-
-			auto Brute = SpawnAIPawn(BruteClass, Pawn->K2_GetActorLocation(), EFortressAIType::FAT_Encounter, rift, ReceivingController);
-
-			if (!Brute)
-			{
-				SendMessageToConsole(PlayerController, L"Failed to spawn brute!");
-				return;
-			}
-
-			// Brute->bFrozen = false;
-			// Brute->SetMovementUrgency(EFortMovementUrgency::High);
-			// Brute->SetAIFocalPoint(Pawn, FVector(), true);
-		}
 		else if (Command == "spawnai")
 		{
 			auto Pawn = Cast<AFortPlayerPawnAthena>(ReceivingController->Pawn);
