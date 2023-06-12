@@ -1581,7 +1581,7 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 	// Haven't tested it out might work tho! Might still give default pickaxe.........
 	
 	auto PickaxeDefinition = Globals::bNoMCP ? GetRandomObjectOfClass<UAthenaPickaxeItemDefinition>(true, true) :
-		NewPlayer->CosmeticLoadoutPC.Pickaxe; // UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Cosmetics/Pickaxes/DefaultPickaxe.DefaultPickaxe");
+		NewPlayer->CosmeticLoadoutPC.Pickaxe; // UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Cosmetics/Pickaxes/DefaultPickaxe.DefaultPickaxe"); // This says that this code just gives you the default pickaxe.
 	GiveItem(NewPlayer, PickaxeDefinition->WeaponDefinition, 1); // IDEA DOESN'T WORK....
 
 	for (int i = 0; i < GameMode->StartingItems.Num(); i++)
@@ -1670,7 +1670,7 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		NewPlayer->CosmeticLoadoutPC.Character = GetRandomObjectOfClass<UAthenaCharacterItemDefinition>(true, true);
 		NewPlayer->CosmeticLoadoutPC.Glider = GetRandomObjectOfClass<UAthenaGliderItemDefinition>(true, true);
 		NewPlayer->CosmeticLoadoutPC.SkyDiveContrail = GetRandomObjectOfClass<UAthenaSkyDiveContrailItemDefinition>(true, true);
-		NewPlayer->CosmeticLoadoutPC.Pickaxe = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");
+		NewPlayer->CosmeticLoadoutPC.Pickaxe = PickaxeDefinition;
 		NewPlayer->CosmeticLoadoutPC.bIsDefaultCharacter = false;
 
 		for (int i = 0; i < 7; i++)
@@ -1689,7 +1689,7 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		NewPlayer->CosmeticLoadoutPC.Character = GetRandomObjectOfClass<UAthenaCharacterItemDefinition>(true, true);
 		NewPlayer->CosmeticLoadoutPC.Glider = GetRandomObjectOfClass<UAthenaGliderItemDefinition>(true, true);
 		NewPlayer->CosmeticLoadoutPC.SkyDiveContrail = GetRandomObjectOfClass<UAthenaSkyDiveContrailItemDefinition>(true, true);
-		NewPlayer->CosmeticLoadoutPC.Pickaxe = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");
+		NewPlayer->CosmeticLoadoutPC.Pickaxe = PickaxeDefinition;
 		NewPlayer->CosmeticLoadoutPC.bIsDefaultCharacter = false;
 	}
 
