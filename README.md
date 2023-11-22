@@ -7,8 +7,8 @@ Fortnite gameserver for 10.40.
 
 **Please keep in mind I'm not that good at C++ and only know a little bit**
 
-# Bye
-* I'm no longer working on ForgeFN no more.
+# I'm back
+* Lowkey bored so ima work on this again.
 
 Main features:
 
@@ -24,3 +24,7 @@ Main features:
 - repairing
 - team map markers
 - killfeed works
+
+# ERRORS:
+* You're own traps kill you...
+I'm taking traps out until I fix it.
