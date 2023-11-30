@@ -1551,8 +1551,8 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 	NewPlayer->bHasServerFinishedLoading = true;
 	NewPlayer->OnRep_bHasServerFinishedLoading();
 
-	// NewPlayer->bBuildFree = true;
-	// NewPlayer->bInfiniteAmmo = true;
+	 NewPlayer->bBuildFree = true;
+	 NewPlayer->bInfiniteAmmo = true;
 
 	PlayerState->bHasStartedPlaying = true;
 	PlayerState->OnRep_bHasStartedPlaying();
