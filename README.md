@@ -2,6 +2,7 @@
 Fortnite gameserver for 10.40.
 
 # By me?
+discord https://discord.gg/VeptRzDkDu
 **I fixed building the dll**
 - new taps
 - lategame tab 
