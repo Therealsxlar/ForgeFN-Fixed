@@ -416,6 +416,8 @@ namespace Globals
 	static inline bool bPlayground = false;
 	static inline bool bRestarting = false;
 	static inline bool bNoMCP = false;
+	static inline bool bInfiniteMaterials = false;
+	static inline bool bInfiniteAmmo = false;
 	static int AmountOfRestarts = 0;
 }
 
