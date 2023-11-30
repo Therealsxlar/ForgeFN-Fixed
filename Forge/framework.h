@@ -418,6 +418,8 @@ namespace Globals
 	static inline bool bNoMCP = false;
 	static inline bool bInfiniteMaterials = false;
 	static inline bool bInfiniteAmmo = false;
+	static inline bool duosstesting = false;
+	static inline bool lategametesting = false;
 	static int AmountOfRestarts = 0;
 }
 
