@@ -266,11 +266,14 @@ DWORD WINAPI GuiThread(LPVOID)
 					StartAircraft();
 				}
 
+				ImGui::Checkbox("Infinite Ammo", &Globals::bInfiniteAmmo);
+				ImGui::Checkbox("Infinite Materials", &Globals::bInfiniteMaterials);
+
 				if (ImGui::Button("Restart"))
 				{
 					auto DefaultFortGameModeAthena = AFortGameModeAthena::StaticClass()->CreateDefaultObject();
 					static auto ReadyToStartMatchFn = UObject::FindObject<UFunction>("/Script/Engine.GameMode.ReadyToStartMatch");
-					//UnhookFunction(DefaultFortGameModeAthena, ReadyToStartMatchFn, ReadyToStartMatchHook, (PVOID*)&ReadyToStartMatch);
+					UnhookFunction(DefaultFortGameModeAthena, ReadyToStartMatchFn, ReadyToStartMatchHook, (PVOID*)&ReadyToStartMatch);
 					RestartServer();
 				}
 
