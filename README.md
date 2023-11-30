@@ -3,6 +3,14 @@ Fortnite gameserver for 10.40.
 
 # By me?
 **I fixed building the dll**
+- new taps
+- lategame tab 
+- duo tab
+- fixes 
+- new gui Style
+- togger infiniti ammo / mats
+- soon new gui
+- soon rebooting recode
 * Everything else in main features was done by milxnor and his crew.
 
 **Please keep in mind I'm not that good at C++ and only know a little bit**
