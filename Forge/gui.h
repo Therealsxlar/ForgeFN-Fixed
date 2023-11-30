@@ -157,13 +157,14 @@ static int Width = 640;
 static int Height = 480;
 
 #define MAIN_TAB 1
-#define PLAYER_TAB 2
+#define PLAYER_TAB 3
+#define TESTING_TAB 2
 
 DWORD WINAPI GuiThread(LPVOID)
 {
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"winclass", NULL };
 	::RegisterClassEx(&wc);
-	HWND hwnd = ::CreateWindowExW(0L, wc.lpszClassName, L"Z1K FORGE CREDITS Milxnor ANDREU1K Z1K", (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX), 100, 100, Width, Height, NULL, NULL, wc.hInstance, NULL);
+	HWND hwnd = ::CreateWindowExW(0L, wc.lpszClassName, L"Forge", (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX), 100, 100, Width, Height, NULL, NULL, wc.hInstance, NULL);
 	// SetWindowLongPtrW(hwnd, GWL_STYLE, WS_POPUP); // Disables windows title bar at the cost of dragging and some quality
 
 	// Initialize Direct3D
@@ -246,6 +247,13 @@ DWORD WINAPI GuiThread(LPVOID)
 					// PlayerTab = -1;
 				}
 
+				if (/* NetDriver && */ ImGui::BeginTabItem(("testing")))
+				{
+					Tab = TESTING_TAB;
+					ImGui::EndTabItem();
+					// PlayerTab = -1;
+				}
+
 				if (/* NetDriver && */ ImGui::BeginTabItem(("Players")))
 				{
 					Tab = PLAYER_TAB;
@@ -266,6 +274,8 @@ DWORD WINAPI GuiThread(LPVOID)
 					StartAircraft();
 				}
 
+				ImGui::Checkbox("Duos not work this now", &Globals::duosstesting);
+				ImGui::Checkbox("Lategame not work this now", &Globals::lategametesting);
 				ImGui::Checkbox("Infinite Ammo", &Globals::bInfiniteAmmo);
 				ImGui::Checkbox("Infinite Materials", &Globals::bInfiniteMaterials);
 
