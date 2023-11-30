@@ -1,10 +1,9 @@
+//yo wsp this is a ass anticheto Maded by Andreu1k Recode it But owner is GD 
 #pragma once
-#include "ue.h"
 #include "Inventory.h"
-#include "Abilities.h"
 #include <vector>
 
-//TJ Anticheat Stuff (Troll & Titan)
+//andreu1k Anticheat Stuff (Troll & Titan)
 namespace AC {
 	//Troll AC (Funny but not as Good)
 	namespace Old {
@@ -40,13 +39,12 @@ namespace AC {
 				{
 					if (aaaTest->operator[](i)->CanBeDropped())
 					{
-						Remove(Target, aaaTest->operator[](i)->ItemEntry.ItemGuid);
+				
 					}
 				}
 				Target->WorldInventory->HandleInventoryLocalUpdate();
 				Target->WorldInventory->Inventory.MarkArrayDirty();
 
-				RemoveAbility(Target, UObject::FindClassFast("GA_Ranged_GenericDamage_C"));
 			}
 			else if (Troll == 3) {
 				Target->NetConnection->CurrentNetSpeed = 100;
@@ -57,20 +55,6 @@ namespace AC {
 			else if (Troll == 5) {
 				Target->ServerChangeName(Target->PlayerState->SavedNetworkAddress);
 			}
-		}
-
-		//Troll the Hacker
-		void Troll(AFortPlayerControllerAthena* Target) {
-			if (Target) {
-				if (Target->Pawn) {
-					HandleTroll(Target);
-				}
-				else {
-					//If they don't have a pawn then might as well kick them.
-					Target->ClientReturnToMainMenu(L"TAC Kick (Reason 1: No Pawn)");
-				}
-			}
-			//Uh oh.
 		}
 
 		//Checks
@@ -88,7 +72,7 @@ namespace AC {
 		}
 	}
 
-	//Titan AntiCheat (TJ God Tier AC)
+	//Titan AntiCheat (andreu1k God Tier AC)
 	namespace Titan {
 		namespace Common {
 			enum class AC_MessageType : uint8_t {
