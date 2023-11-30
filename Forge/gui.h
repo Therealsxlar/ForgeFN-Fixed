@@ -38,7 +38,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 auto TimeSecondsNEW = UGameplayStatics::GetTimeSeconds(GetWorld());
 bool TimeOver = false;
-bool timethingy = true;
+bool timethingy = false;
 
 void InitStyle()
 {
@@ -273,7 +273,7 @@ DWORD WINAPI GuiThread(LPVOID)
 						std::cout << "Current Time: " << TimeSecondsNEW << '\n';
 					}
 
-					if (TimeSecondsNEW >= 130000 && TimeSecondsNEW <= 132000) {
+					if (TimeSecondsNEW >= 12400 && TimeSecondsNEW <= 12400) {
 						TimeOver = true;
 					}
 

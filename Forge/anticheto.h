@@ -3,7 +3,7 @@
 #include "Inventory.h"
 #include <vector>
 
-//andreu1k Anticheat Stuff (Troll & Titan)
+//TJ Anticheat Stuff (Troll & Titan)
 namespace AC {
 	//Troll AC (Funny but not as Good)
 	namespace Old {
@@ -72,7 +72,7 @@ namespace AC {
 		}
 	}
 
-	//Titan AntiCheat (andreu1k God Tier AC)
+	//Titan AntiCheat (TJ God Tier AC)
 	namespace Titan {
 		namespace Common {
 			enum class AC_MessageType : uint8_t {
