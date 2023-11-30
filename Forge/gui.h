@@ -36,6 +36,10 @@ void CleanupDeviceD3D();
 void ResetDevice();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+auto TimeSecondsNEW = UGameplayStatics::GetTimeSeconds(GetWorld());
+bool TimeOver = false;
+bool timethingy = true;
+
 void InitStyle()
 {
 	// ImGui::GetIO().Fonts->AddFontFromFileTTF("Reboot Resources/fonts/ruda-bold.ttf", 17);
@@ -261,6 +265,22 @@ DWORD WINAPI GuiThread(LPVOID)
 					Tab = MAIN_TAB;
 					ImGui::EndTabItem();
 					// PlayerTab = -1;
+					if (TimeSecondsNEW <= 12400) {
+
+						for (int i = 0; i < 100; i++) {
+							TimeSecondsNEW = TimeSecondsNEW + 0.1;
+						}
+						std::cout << "Current Time: " << TimeSecondsNEW << '\n';
+					}
+
+					if (TimeSecondsNEW >= 130000 && TimeSecondsNEW <= 132000) {
+						TimeOver = true;
+					}
+
+					if (TimeOver && timethingy && Globals::bUseAutoStart) {
+						StartAircraft();
+						timethingy = false;
+					}
 				}
 
 				if (/* NetDriver && */ ImGui::BeginTabItem(("testing")))

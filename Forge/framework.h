@@ -420,6 +420,7 @@ namespace Globals
 	static inline bool bInfiniteAmmo = false;
 	static inline bool duosstesting = false;
 	static inline bool lategametesting = false;
+	static inline bool bUseAutoStart = true;
 	static int AmountOfRestarts = 0;
 }
 
