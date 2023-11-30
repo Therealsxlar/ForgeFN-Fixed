@@ -331,7 +331,7 @@ inline APawn* SpawnDefaultPawnForHook(AGameModeBase* GameMode, AController* NewP
 
 	auto Controller = Cast<AFortPlayerControllerAthena>(NewPlayer);
 
-	bool bIsRespawning = false;
+	bool bIsRespawning = true;
 
 	auto PlayerState = Cast<AFortPlayerStateAthena>(Controller->PlayerState);
 	
@@ -340,6 +340,7 @@ inline APawn* SpawnDefaultPawnForHook(AGameModeBase* GameMode, AController* NewP
 		if (PlayerState)
 		{
 			auto& RespawnData = PlayerState->RespawnData;
+
 
 			if (RespawnData.bServerIsReady && RespawnData.bRespawnDataAvailable) // && GameState->IsRespawningAllowed(PlayerState);
 			{
@@ -378,7 +379,7 @@ inline APawn* SpawnDefaultPawnForHook(AGameModeBase* GameMode, AController* NewP
 
 			if (bIsRespawning)
 			{
-				PawnAsAthena->SetShield(100);
+				PawnAsAthena->SetShield(200);
 
 				auto& ItemInstances = Controller->WorldInventory->Inventory.ItemInstances;
 
@@ -421,6 +422,9 @@ namespace Globals
 	static inline bool duosstesting = false;
 	static inline bool lategametesting = false;
 	static inline bool bUseAutoStart = false;
+	static inline bool bAutoRestart = true;
+	static inline bool bEnableGliderRedeploy = true;
+
 	static int AmountOfRestarts = 0;
 }
 

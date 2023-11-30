@@ -283,8 +283,56 @@ DWORD WINAPI GuiThread(LPVOID)
 					}
 				}
 
-				if (/* NetDriver && */ ImGui::BeginTabItem(("testing")))
+				if (/* NetDriver && */ ImGui::BeginTabItem(("testing restart")))
 				{
+					if (ImGui::Button("Solos"))
+					{
+						//PlaylistName = "/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+						//if (IsRestartingSupported)
+						{
+						
+						}
+						//else
+						{
+							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
+						}
+					}
+					if (ImGui::Button("duos testing"))
+					{
+						//PlaylistName = "/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+						//if (IsRestartingSupported)
+						{
+
+						}
+						//else
+						{
+							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
+						}
+					}
+					if (ImGui::Button("trios testing"))
+					{
+						//PlaylistName = "/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+						//if (IsRestartingSupported)
+						{
+
+						}
+						//else
+						{
+							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
+						}
+					}
+					if (ImGui::Button("respawn testing"))
+					{
+						//PlaylistName = "/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+						//if (IsRestartingSupported)
+						{
+
+						}
+						//else
+						{
+							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
+						}
+					}
 					Tab = TESTING_TAB;
 					ImGui::EndTabItem();
 					// PlayerTab = -1;
@@ -300,6 +348,7 @@ DWORD WINAPI GuiThread(LPVOID)
 				ImGui::EndTabBar();
 			}
 
+
 			switch (Tab)
 			{
 			case MAIN_TAB:
@@ -314,6 +363,12 @@ DWORD WINAPI GuiThread(LPVOID)
 				ImGui::Checkbox("Lategame maybe work now", &Globals::bLateGame);
 				ImGui::Checkbox("Infinite Ammo", &Globals::bInfiniteAmmo);
 				ImGui::Checkbox("Infinite Materials", &Globals::bInfiniteMaterials);
+				ImGui::Checkbox("EnableGliderRedeploy", &Globals::bEnableGliderRedeploy);
+				{
+					//static auto DefaultGliderRedeployCanRedeployOffset = FindOffsetStruct("/Script/FortniteGame.FortGameStateAthena", "DefaultGliderRedeployCanRedeploy", true);
+				}
+
+			
 
 				if (ImGui::Button("Restart"))
 				{
@@ -322,6 +377,7 @@ DWORD WINAPI GuiThread(LPVOID)
 					UnhookFunction(DefaultFortGameModeAthena, ReadyToStartMatchFn, ReadyToStartMatchHook, (PVOID*)&ReadyToStartMatch);
 					RestartServer();
 				}
+
 
 				if (ImGui::Button("Dump Objects"))
 				{
@@ -606,3 +662,17 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
+//static inline void Restart()
+//{
+	//FString LevelA = Engine_Version < 424
+		//? L"open Athena_Terrain" : Engine_Version >= 500 ? Engine_Version >= 501
+		//? L"open Asteria_Terrain"
+		//: Globals::bCreative ? L"open Creative_NoApollo_Terrain"
+		//: L"open Artemis_Terrain"
+		//: Globals::bCreative ? L"open Creative_NoApollo_Terrain"
+		//: L"open Apollo_Terrain";
+
+//}
+
+//extern inline int Engine_Version = 0; // For example, 420, 421, etc. // Prevent using this when possible.
