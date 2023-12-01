@@ -46,13 +46,13 @@ auto TimeSecondsNEW = UGameplayStatics::GetTimeSeconds(GetWorld());
 bool TimeOver = false;
 bool timethingy = false;
 
+static inline void InitFont() {
+	ImFontConfig FontConfig;
+	FontConfig.FontDataOwnedByAtlas = false;
+}
+
 void InitStyle()
 {
-	// ImGui::GetIO().Fonts->AddFontFromFileTTF("Reboot Resources/fonts/ruda-bold.ttf", 17);
-	ImGui::GetStyle().FrameRounding = 4.0f;
-	ImGui::GetStyle().GrabRounding = 4.0f;
-
-	ImVec4* colors = ImGui::GetStyle().Colors;
 	auto& mStyle = ImGui::GetStyle();
 	mStyle.FramePadding = ImVec2(4, 2);
 	mStyle.ItemSpacing = ImVec2(6, 2);
