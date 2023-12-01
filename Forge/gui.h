@@ -23,6 +23,12 @@
 #include "moderation.h"
 
 #pragma comment(lib, "D3d9.lib")
+extern inline float StartingShield = 100;
+extern inline bool bDebugPrintLooting = true;
+extern inline bool bDebugPrintFloorLoot = true;
+extern inline bool bDebugPrintSwapping = true;
+extern inline bool bEnableBotTick = true;
+extern inline bool bEnableRebooting = true;
 
 // THE BASE CODE IS FROM IMGUI GITHUB
 
@@ -283,6 +289,14 @@ DWORD WINAPI GuiThread(LPVOID)
 					}
 				}
 
+				if (/* NetDriver && */ ImGui::BeginTabItem(("dump skins wont work rn")))
+				{
+					if (ImGui::Button("Dump skins"))
+
+					std::ofstream SkinsFile("Skins.txt");
+ 
+				}
+
 				if (/* NetDriver && */ ImGui::BeginTabItem(("testing restart")))
 				{
 					if (ImGui::Button("Solos"))
@@ -333,6 +347,8 @@ DWORD WINAPI GuiThread(LPVOID)
 							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
 						}
 					}
+				
+					ImGui::InputFloat("Starting Shield", &StartingShield);
 					Tab = TESTING_TAB;
 					ImGui::EndTabItem();
 					// PlayerTab = -1;
@@ -494,7 +510,7 @@ DWORD WINAPI GuiThread(LPVOID)
 									Ban(Controller, RequestURLStr);
 								}
 
-								if (ImGui::Button("Spawn Stationary Bot"))
+								if (ImGui::Button("Spawn Stationary Bot crash dont use"))
 								{
 									static auto PawnClass = UObject::FindObject<UBlueprintGeneratedClass>("/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C");
 
