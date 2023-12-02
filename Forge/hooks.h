@@ -52,7 +52,7 @@ static void StreamLevel(std::string LevelName, FVector Location = {})
 
 	FBuildingFoundationStreamingData StreamingData;
 	WorldSettings->BuildingFoundationStreamingData.Add(StreamingData);
-	
+
 	BuildingFoundation->SetDynamicFoundationEnabled(true);
 }
 
@@ -94,7 +94,7 @@ static void ActivateAbility(UAbilitySystemComponent* AbilitySystemComponent, FGa
 	UGameplayAbility* InstancedAbility;
 	Spec->InputPressed = true;
 
-	static bool (*InternalTryActivateAbility)(UAbilitySystemComponent*, FGameplayAbilitySpecHandle Handle, FPredictionKey InPredictionKey, UGameplayAbility** OutInstancedAbility, void* OnGameplayAbilityEndedDelegate, const FGameplayEventData * TriggerEventData) =
+	static bool (*InternalTryActivateAbility)(UAbilitySystemComponent*, FGameplayAbilitySpecHandle Handle, FPredictionKey InPredictionKey, UGameplayAbility * *OutInstancedAbility, void* OnGameplayAbilityEndedDelegate, const FGameplayEventData * TriggerEventData) =
 		decltype(InternalTryActivateAbility)((uintptr_t)GetModuleHandleW(0) + 0x9367F0);
 
 	if (!InternalTryActivateAbility(AbilitySystemComponent, Ability, PredictionKey, &InstancedAbility, nullptr, EventData))
@@ -447,7 +447,7 @@ void FillVendingMachine(ABuildingItemCollectorActor* ItemCollector, FName& LootT
 		ABuildingItemCollectorActor_UpdateCollectorsActiveItem_Params params{};
 		params.CurrentCaptureCount = 0;
 		params.InputItem = ItemCollector->ActiveInputItem;
-	
+
 		ItemCollector->ProcessEvent(func, &params); */
 
 		*(EFortRarity*)(__int64(ItemCollector) + 0xA00) = ItemCollector->ItemCollections[z].OutputItem->Rarity;
@@ -618,9 +618,9 @@ bool ReadyToStartMatchHook(AFortGameModeAthena* GameMode)
 		static UNetDriver* (*CreateNetDriver)(UEngine*, UWorld*, FName) = decltype(CreateNetDriver)((uintptr_t)GetModuleHandleW(0) + 0x347FAF0);
 		static char (*InitListen)(UNetDriver*, void*, FURL&, bool, FString&) = decltype(InitListen)((uintptr_t)GetModuleHandleW(0) + 0x6F5F90);
 		static void (*SetWorld)(UNetDriver*, UWorld*) = decltype(SetWorld)((uintptr_t)GetModuleHandleW(0) + 0x31EDF40);
-		static void (*PauseBeaconRequests)(AOnlineBeacon* a1, char a2) = decltype(PauseBeaconRequests)(__int64(GetModuleHandleW(0)) + 0x17F03D0);
-		static bool (*InitHost)(AOnlineBeacon* a1) = decltype(InitHost)(__int64(GetModuleHandleW(0)) + 0x6F5A30);
-		
+		static void (*PauseBeaconRequests)(AOnlineBeacon * a1, char a2) = decltype(PauseBeaconRequests)(__int64(GetModuleHandleW(0)) + 0x17F03D0);
+		static bool (*InitHost)(AOnlineBeacon * a1) = decltype(InitHost)(__int64(GetModuleHandleW(0)) + 0x6F5A30);
+
 		bool bListen = true;
 		bool bUseBeacons = false;
 
@@ -747,7 +747,7 @@ bool ReadyToStartMatchHook(AFortGameModeAthena* GameMode)
 				ChestsToDelete--;
 			}
 		}
-		
+
 		if (GameState->MapInfo)
 		{
 			auto AmmoBoxMinSpawnPercentCurve = GameState->MapInfo->AmmoBoxMinSpawnPercent.Curve;
@@ -786,7 +786,7 @@ bool ReadyToStartMatchHook(AFortGameModeAthena* GameMode)
 
 		GameMode->WarmupRequiredPlayerCount = 1; //  Globals::bMinimumPlayersToDropLS;
 
-		static char (*SpawnLoot)(ABuildingContainer* BuildingContainer, AFortPlayerPawnAthena* Pawn, int idk, int idk2) = decltype(SpawnLoot)(__int64(GetModuleHandleW(0)) + 0x13A91C0);
+		static char (*SpawnLoot)(ABuildingContainer * BuildingContainer, AFortPlayerPawnAthena * Pawn, int idk, int idk2) = decltype(SpawnLoot)(__int64(GetModuleHandleW(0)) + 0x13A91C0);
 		CREATE_HOOK(SpawnLootHook, SpawnLoot);
 
 		static auto LlamaClass = UObject::FindObject<UClass>("/Game/Athena/SupplyDrops/Llama/AthenaSupplyDrop_Llama.AthenaSupplyDrop_Llama_C");
@@ -807,10 +807,9 @@ bool ReadyToStartMatchHook(AFortGameModeAthena* GameMode)
 			CREATE_HOOK(retfalsew, PreLogin);
 		}
 
-		static auto BusDefinition = UObject::FindObject<UAthenaBattleBusItemDefinition>("/Game/Athena/Items/Cosmetics/BattleBuses/BBID_BirthdayBus2nd.BBID_BirthdayBus2nd"); 
-		// UObject::FindObject<UAthenaBattleBusItemDefinition>("/Game/Athena/Items/Cosmetics/BattleBuses/BBID_WorldCupBus.BBID_WorldCupBus");
-		// UObject::FindObject<UAthenaBattleBusItemDefinition>("/Game/Athena/Items/Cosmetics/BattleBuses/BBID_BirthdayBus2nd.BBID_BirthdayBus2nd");
-		// UObject::FindObject<UAthenaBattleBusItemDefinition>("/Game/Athena/Items/Cosmetics/BattleBuses/BBID_WinterBus.BBID_WinterBus");
+		static auto BusDefinition = // UObject::FindObject<UAthenaBattleBusItemDefinition>("/Game/Athena/Items/Cosmetics/BattleBuses/BBID_WorldCupBus.BBID_WorldCupBus");
+			// UObject::FindObject<UAthenaBattleBusItemDefinition>("/Game/Athena/Items/Cosmetics/BattleBuses/BBID_BirthdayBus2nd.BBID_BirthdayBus2nd");
+			// UObject::FindObject<UAthenaBattleBusItemDefinition>("/Game/Athena/Items/Cosmetics/BattleBuses/BBID_WinterBus.BBID_WinterBus");
 			GetRandomObjectOfClass<UAthenaBattleBusItemDefinition>(false, false);
 
 		if (BusDefinition)
@@ -822,7 +821,7 @@ bool ReadyToStartMatchHook(AFortGameModeAthena* GameMode)
 		if (Globals::bLateGame)
 		{
 			auto MapInfo = GameState->MapInfo;
-			
+
 			if (MapInfo)
 			{
 				// std::cout << "MapInfo->FlightInfos.Num(): " << MapInfo->FlightInfos.Num() << '\n';
@@ -899,7 +898,7 @@ void ServerAcknowledgePossessionHook(APlayerController* PlayerController, APawn*
 		PawnAsAthena->OnRep_CosmeticLoadout();
 
 		ApplyCID(PlayerState, PawnAsAthena->CosmeticLoadout.Character, PawnAsAthena);
-		ApplyCustomizationToCharacter(PlayerState);
+		// ApplyCustomizationToCharacter(PlayerState);
 	}
 }
 
@@ -1085,7 +1084,7 @@ static bool OnSafeZoneStateChangeHook(UObject* Object, UFunction*, void* Paramet
 DWORD WINAPI StartZoneThread(LPVOID)
 {
 	// Sleep(1000);
-	
+
 	auto GameState = Cast<AFortGameStateAthena>(GetWorld()->GameState);
 
 	UKismetSystemLibrary::ExecuteConsoleCommand(GetWorld(), L"startsafezone", nullptr/* ReceivingController */);
@@ -1175,6 +1174,7 @@ __int64 (*UPlaysetLevelStreamComponent_LoadPlayset)(UPlaysetLevelStreamComponent
 
 void ShowPlayset(UFortPlaysetItemDefinition* PlaysetItemDef, AFortVolume* Volume, AFortPlayerController* PlayerController, bool bSpawnActors = false, FVector SpawnLocation = FVector())
 {
+
 	auto GameState = Cast<AFortGameStateAthena>(GetWorld()->AuthorityGameMode->GameState);
 
 	static auto VolumeClass = UObject::FindObject<UBlueprintGeneratedClass>("/Game/Athena/BuildingActors/FortVolumeActor_PrefabGrenades.FortVolumeActor_PrefabGrenades_C");
@@ -1362,7 +1362,7 @@ AFortPickup* (*SupplyDrop_SpawnPickupOriginal)(AFortAthenaSupplyDrop* SupplyDrop
 AFortPickup* SupplyDrop_SpawnPickupHook(AFortAthenaSupplyDrop* SupplyDrop, FFrame& Stack, AFortPickup** Res)
 {
 	SupplyDrop_SpawnPickupOriginal(SupplyDrop, Stack, Res);
-	std::cout << "Supply Drops. Might be working\n";
+	std::cout << "LEGIT!\n";
 	auto Params = (AFortAthenaSupplyDrop_SpawnPickup_Params*)Stack.Locals;
 
 	FFortItemEntry Entry;
@@ -1420,7 +1420,7 @@ __int64 SetCustomizationLoadoutDataHook(AFortPlayerPawn* Pawn, FFortAthenaLoadou
 
 	std::cout << std::format("setacjwugtwugu: 0x{:x}\n", __int64(_ReturnAddress()) - __int64(GetModuleHandleW(0)));
 
-	NewLoadout = Controller->CosmeticLoadoutPC;
+	// NewLoadout = Controller->CosmeticLoadoutPC;
 	return SetCustomizationLoadoutDataOriginal(Pawn, NewLoadout);
 }
 
@@ -1550,39 +1550,27 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 	NewPlayer->bHasServerFinishedLoading = true;
 	NewPlayer->OnRep_bHasServerFinishedLoading();
 
-	NewPlayer->bBuildFree = true;
-	NewPlayer->bInfiniteAmmo = true;
+     NewPlayer->bBuildFree = true;
+	 NewPlayer->bInfiniteAmmo = true;
 
 	PlayerState->bHasStartedPlaying = true;
 	PlayerState->OnRep_bHasStartedPlaying();
 
-	UAthenaPickaxeItemDefinition* PickaxeDefinition = nullptr; // Hopefully this is new fix bro!
-	
-	static auto PickaxeRaiders = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");
-
-	if (Globals::bNoMCP) {
-		PickaxeDefinition = GetRandomObjectOfClass<UAthenaPickaxeItemDefinition>(true, true);
-	}
-	else {
-		if (NewPlayer->CosmeticLoadoutPC.Pickaxe == nullptr) {
-			PickaxeDefinition = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");
-			NewPlayer->CosmeticLoadoutPC.Pickaxe = PickaxeDefinition;
-		}
-		else {
-			PickaxeDefinition = NewPlayer->CosmeticLoadoutPC.Pickaxe;
-			PickaxeRaiders = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");;
-		}
-	}
-
-	if (PickaxeDefinition != nullptr) {
-		GiveItem(NewPlayer, PickaxeDefinition->WeaponDefinition, 1); 
-		NewPlayer->CosmeticLoadoutPC.Pickaxe = PickaxeRaiders;
-	}
-	// Haven't tested it out might work tho! Might still give default pickaxe.........
-	
 	auto PickaxeDefinition = Globals::bNoMCP ? GetRandomObjectOfClass<UAthenaPickaxeItemDefinition>(true, true) :
-		NewPlayer->CosmeticLoadoutPC.Pickaxe; // UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Cosmetics/Pickaxes/DefaultPickaxe.DefaultPickaxe"); // This says that this code just gives you the default pickaxe.
-	GiveItem(NewPlayer, PickaxeDefinition->WeaponDefinition, 1); // IDEA DOESN'T WORK....
+		NewPlayer->CosmeticLoadoutPC.Pickaxe; // UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Cosmetics/Pickaxes/DefaultPickaxe.DefaultPickaxe");
+	GiveItem(NewPlayer, PickaxeDefinition->WeaponDefinition, 1);
+
+	/*
+	static auto WallPiece = UObject::FindObject<UFortItemDefinition>("/Game/Items/Weapons/BuildingTools/BuildingItemData_Wall.BuildingItemData_Wall");
+	static auto FloorPiece = UObject::FindObject<UFortItemDefinition>("/Game/Items/Weapons/BuildingTools/BuildingItemData_Floor.BuildingItemData_Floor");
+	static auto StairPiece = UObject::FindObject<UFortItemDefinition>("/Game/Items/Weapons/BuildingTools/BuildingItemData_Stair_W.BuildingItemData_Stair_W");
+	static auto RoofPiece = UObject::FindObject<UFortItemDefinition>("/Game/Items/Weapons/BuildingTools/BuildingItemData_RoofS.BuildingItemData_RoofS");
+
+	GiveItem(NewPlayer, WallPiece, 1);
+	GiveItem(NewPlayer, FloorPiece, 1);
+	GiveItem(NewPlayer, StairPiece, 1);
+	GiveItem(NewPlayer, RoofPiece, 1);
+	*/
 
 	for (int i = 0; i < GameMode->StartingItems.Num(); i++)
 	{
@@ -1647,19 +1635,19 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 
 	Update(NewPlayer);
 
-	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Weapons/WID_Shotgun_Standard_Athena_SR_Ore_T03.WID_Shotgun_Standard_Athena_SR_Ore_T03"), 1);
+	/* GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Weapons/WID_Shotgun_Standard_Athena_SR_Ore_T03.WID_Shotgun_Standard_Athena_SR_Ore_T03"), 1);
 	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Weapons/WID_Assault_AutoHigh_Athena_SR_Ore_T03.WID_Assault_AutoHigh_Athena_SR_Ore_T03"), 1);
 	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Weapons/WID_Pistol_AutoHeavyPDW_Athena_R_Ore_T03.WID_Pistol_AutoHeavyPDW_Athena_R_Ore_T03"), 1);
 	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Consumables/ShieldSmall/Athena_ShieldSmall.Athena_ShieldSmall"), 6);
-	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataShells.AthenaAmmoDataShells"), 69);
-	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium"), 69);
-	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsLight.AthenaAmmoDataBulletsLight"), 69);
-	Update(NewPlayer);
+	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataShells.AthenaAmmoDataShells"), 999);
+	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsMedium.AthenaAmmoDataBulletsMedium"), 999);
+	GiveItem(NewPlayer, UObject::FindObject<UFortItemDefinition>("/Game/Athena/Items/Ammo/AthenaAmmoDataBulletsLight.AthenaAmmoDataBulletsLight"), 999);
+	Update(NewPlayer); */
 
 	//static auto CID = UObject::FindObject<UAthenaCharacterItemDefinition>("/Game/Athena/Items/Cosmetics/Characters/CID_001_Athena_Commando_F_Default.CID_001_Athena_Commando_F_Default");
 	// static auto HeadPart = UObject::FindObject<UCustomCharacterPart>("/Game/Characters/CharacterParts/Female/Medium/Heads/F_Med_Head1.F_Med_Head1");
 	// static auto BodyPart = UObject::FindObject<UCustomCharacterPart>("/Game/Characters/CharacterParts/Female/Medium/Bodies/F_Med_Soldier_01.F_Med_Soldier_01");
-	static auto BackpackPart = UObject::FindObject<UCustomCharacterPart>("/Game/Characters/CharacterParts/Backpacks/NoBackpack.NoBackpack"); // testing backend
+	static auto BackpackPart = UObject::FindObject<UCustomCharacterPart>("/Game/Characters/CharacterParts/Backpacks/NoBackpack.NoBackpack");
 
 	if (false)
 	{
@@ -1681,7 +1669,7 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		// PlayerState->CharacterData.Parts[0] = HeadPart;
 		// PlayerState->CharacterData.Parts[1] = BodyPart;
 
-		PlayerState->CharacterData.Parts[3] = BackpackPart; // BACK PACK ENABLED?
+		PlayerState->CharacterData.Parts[3] = BackpackPart;
 		PlayerState->OnRep_CharacterData();
 	}
 	else
@@ -1734,7 +1722,7 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 
 		int ToSubtractBy = 2; // GameState->CurrentPlaylistInfo.BasePlaylist->MaxSquadSize; // PlayerState->TeamIndex - 3; // 1;
 		PlayerState->SquadId = PlayerState->TeamIndex /*  + PlayerState->PlayerTeam->TeamMembers.Num() */ - ToSubtractBy;
-		
+
 		/* PlayerState->OnRep_PlayerTeam();
 		PlayerState->OnRep_PlayerTeamPrivate();
 		PlayerState->OnRep_TeamIndex(0);
@@ -1749,7 +1737,22 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		GameState->GameMemberInfoArray.MarkArrayDirty();
 	}
 
+	// GameState->PlayersLeft++;
 	GameState->OnRep_PlayersLeft();
+
+	/*
+	std::cout << "AthenaProfile: " << NewPlayer->AthenaProfile << '\n';
+	std::cout << "MetadataProfile: " << NewPlayer->MetadataProfile << '\n';
+	std::cout << "MainMcpProfile: " << NewPlayer->MainMcpProfile << '\n';
+	std::cout << "CommonCoreMcpProfile: " << NewPlayer->CommonCoreMcpProfile << '\n';
+	std::cout << "CommonPublicMcpProfile: " << NewPlayer->CommonPublicMcpProfile << '\n';
+	std::cout << "CreativeModeProfile: " << NewPlayer->CreativeModeProfile << '\n';
+
+	if (NewPlayer->GetRegisteredPlayerInfo())
+		std::cout << "GetRegisteredPlayerInfo()->CreativeModeProfile: " << NewPlayer->GetRegisteredPlayerInfo()->CreativeModeProfile << '\n';
+
+	std::cout << "SKIDD: " << NewPlayer->GetRegisteredPlayerInfo() << '\n';
+	*/
 
 	if (Globals::bCreative && !PlayerState->bIsSpectator)
 	{
@@ -1770,8 +1773,8 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 
 		Portal->IslandInfo.CreatorName = PlayerState->GetPlayerName();
 		Portal->IslandInfo.Version = 1.0f;
-		Portal->IslandInfo.SupportCode = L"	Forge";
-		Portal->IslandInfo.Mnemonic = L"dsc.gg";
+		Portal->IslandInfo.SupportCode = L"ProjectReboot";
+		Portal->IslandInfo.Mnemonic = L"discord.gg/reboot";
 		Portal->IslandInfo.ImageUrl = L"https://th.bing.com/th/id/OIP.uUg45Kci2-a38s2ac3arVAHaEK?pid=ImgDet&rs=1";
 		Portal->OnRep_IslandInfo();
 
@@ -1797,7 +1800,7 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		// static UFortCreativeRealEstatePlotItemDefinition* RealEstatePID =
 			// UObject::FindObject<UFortCreativeRealEstatePlotItemDefinition>("/Game/Playgrounds/Items/Plots/BlackGlass_Medium.BlackGlass_Medium");
 			// UObject::FindObject<UFortCreativeRealEstatePlotItemDefinition>("/Game/Playgrounds/Items/Plots/Temperate_Medium.Temperate_Medium");
-		
+
 		auto VolumeManager = GameState->VolumeManager;
 		auto& VolumeObjects = VolumeManager->VolumeObjects;
 
@@ -1810,10 +1813,10 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		{
 			static auto IslandPlayset = // UObject::FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_60x60_Composed_BlackGlass.PID_Playset_60x60_Composed_BlackGlass"); 
 				UObject::FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_60x60_Composed.PID_Playset_60x60_Composed");
-				// UObject::FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_105x105_Composed_Desert.PID_Playset_105x105_Composed_Desert");
-				// UObject::FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_105x105_Composed_FlatGrid.PID_Playset_105x105_Composed_FlatGrid");
-				// UObject::FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_105x105_Composed_Desert_02.PID_Playset_105x105_Composed_Desert_02");
-				// RealEstatePID->BasePlayset.Get();
+			// UObject::FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_105x105_Composed_Desert.PID_Playset_105x105_Composed_Desert");
+			// UObject::FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_105x105_Composed_FlatGrid.PID_Playset_105x105_Composed_FlatGrid");
+			// UObject::FindObject<UFortPlaysetItemDefinition>("/Game/Playsets/PID_Playset_105x105_Composed_Desert_02.PID_Playset_105x105_Composed_Desert_02");
+			// RealEstatePID->BasePlayset.Get();
 
 			if (NewPlayer->CreativePlotLinkedVolume)
 			{
@@ -1842,8 +1845,8 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 					if (LevelSaveComponent->LoadedPlot)
 					{
 						// std::cout << "LevelSaveComponent->LoadedPlot Name: " << LevelSaveComponent->LoadedPlot->GetFullName() << '\n';
-						LevelSaveComponent->LoadedPlot->IslandCode = L"1111-2222-3333-4444";
-						LevelSaveComponent->LoadedPlot->IslandTitle = L"F5 ForgeFN";
+						LevelSaveComponent->LoadedPlot->IslandCode = L"4949-4949-4949";
+						LevelSaveComponent->LoadedPlot->IslandTitle = L"BIG SKIDDERS";
 					}
 
 					LevelSaveComponent->OnRep_LoadedPlotInstanceId();
@@ -1906,19 +1909,19 @@ void ServerChoosePartHook(AFortPlayerPawn* Pawn, TEnumAsByte<EFortCustomPartType
 void (*ServerLoadingScreenDropped)(AFortPlayerControllerAthena* PlayerController);
 
 void ServerLoadingScreenDroppedHook(AFortPlayerControllerAthena* PlayerController)
-{	
+{
 	// std::cout << "lsdropped!\n";
 
 	// static FFortAthenaLoadout (*GetLoadout)(UFortMcpProfileAthena* AthenaProfile, char a2) = decltype(GetLoadout)(__int64(GetModuleHandleW(0)) + 0x1F15AB0);
 
-	// auto Loadout = PlayerController->CosmeticLoadoutPC; // GetLoadout(PlayerController->AthenaProfile, false);
+	auto Loadout = PlayerController->CosmeticLoadoutPC; // GetLoadout(PlayerController->AthenaProfile, false);
 
-	/* std::cout << "Loadout.Backpack: " << Loadout.Backpack << '\n';
+	std::cout << "Loadout.Backpack: " << Loadout.Backpack << '\n';
 
 	if (Loadout.Backpack)
 	{
 		std::cout << "Loadout.Backpack Name: " << Loadout.Backpack->GetFullName() << '\n';
-	} */
+	}
 
 	auto MyFortPawn = PlayerController->MyFortPawn;
 
@@ -1959,7 +1962,7 @@ void ServerSetInAircraftHook(AFortPlayerStateAthena* PlayerState, bool bNewInAir
 {
 	auto PlayerController = Cast<AFortPlayerControllerAthena>(PlayerState->GetOwner());
 
-	std::cout << "ForgeFN\n";
+	std::cout << "HUH!\n";
 
 	if (!PlayerController)
 		return;
@@ -2015,7 +2018,7 @@ bool ServerMoveHook(UObject* Object, UFunction*, void* Parameters)
 	auto Mesh = Cast<UPrimitiveComponent>(PhysicsPawn->RootComponent);
 
 	// PhysicsPawn->GravityMultiplier
-	
+
 	float v50 = -2.0;
 	float v49 = 2.5;
 
@@ -2030,7 +2033,7 @@ bool ServerMoveHook(UObject* Object, UFunction*, void* Parameters)
 	Transform.Scale3D = FVector{ 1, 1, 1 };
 
 	/*
-	
+
 	LINEAR X == ANGULAR Y
 	LINEAR Y == ANGULAR Z
 	LINEAR Z == LINEAR X
@@ -2060,7 +2063,7 @@ bool ServerMoveHook(UObject* Object, UFunction*, void* Parameters)
 
 	bool bTeleport = true; // false not proper!!!
 	bool bSweep = false;
-	
+
 	// std::cout << std::format("X: {} Y: {} Z: {} W: {}\n", InState.Rotation.X, InState.Rotation.Y, InState.Rotation.Z, InState.Rotation.W);
 
 	// Mesh->K2_SetRelativeLocation(Transform.Translation, bSweep, bTeleport, nullptr);
@@ -2180,7 +2183,7 @@ static void ServerExecuteInventoryItemHook(AFortPlayerControllerAthena* PlayerCo
 
 	if (auto Weapon = Pawn->EquipWeaponDefinition(WeaponDef, ItemGuid))
 	{
-		
+
 	}
 }
 
@@ -2295,7 +2298,7 @@ void ServerSendZiplineStateHook(AFortPlayerPawn* Pawn, FZiplinePawnState InZipli
 				LaunchVelocity.X = ZiplineJumpStrength;
 				LaunchVelocity.Z = ZiplineJumpDampening;
 
-// #define ZIPLINEJUMP_TEST
+				// #define ZIPLINEJUMP_TEST
 
 #ifndef ZIPLINEJUMP_TEST
 				{ // wtf
@@ -2311,7 +2314,7 @@ void ServerSendZiplineStateHook(AFortPlayerPawn* Pawn, FZiplinePawnState InZipli
 		}
 	}
 
-	static void (*OnRep_ZiplineState)(AFortPlayerPawn* Pawn) = decltype(OnRep_ZiplineState)(__int64(GetModuleHandleW(0)) + 0x1967d30);
+	static void (*OnRep_ZiplineState)(AFortPlayerPawn * Pawn) = decltype(OnRep_ZiplineState)(__int64(GetModuleHandleW(0)) + 0x1967d30);
 	OnRep_ZiplineState(Pawn);
 }
 
@@ -2329,7 +2332,7 @@ bool ServerSetPlaysetHook(UObject* Object, UFunction*, void* Parameters)
 }
 
 static unsigned int* (*GiveAbilityAndActivateOnce)(UAbilitySystemComponent* ASC, int* outHandle, FGameplayAbilitySpec Spec)
-	= decltype(GiveAbilityAndActivateOnce)(__int64(GetModuleHandleW(0)) + 0x935130);
+= decltype(GiveAbilityAndActivateOnce)(__int64(GetModuleHandleW(0)) + 0x935130);
 
 bool NotifyAbilityToSpawnToyHook(UObject* Object, UFunction*, void* Parameters)
 {
@@ -2412,24 +2415,31 @@ void ServerPlayEmoteItemHook(AFortPlayerController* PlayerController, UFortMonta
 	else if (auto ToyEmoteAsset = Cast<UAthenaToyItemDefinition>(EmoteAsset))
 	{
 		auto AssetPathNameStr = ToyEmoteAsset->ToySpawnAbility.ObjectID.AssetPathName.ToString();
-		auto Toya = UObject::FindObject<UBlueprintGeneratedClass>(AssetPathNameStr);
-		if (Toya)
-			AbilityToUse = (UGameplayAbility*)Toya->CreateDefaultObject();
+		// std::cout << "AA: " << AssetPathNameStr << '\n';
+		/* AbilityToUse = */ auto skidda = UObject::FindObject<UBlueprintGeneratedClass>(AssetPathNameStr); // ToyEmoteAsset->ToySpawnAbility.Get();
+		// std::cout << "skidda: " << skidda << '\n';
+
+		if (skidda)
+			AbilityToUse = (UGameplayAbility*)skidda->CreateDefaultObject();
+
+		// std::cout << "AbilityToUse: " << AbilityToUse << '\n';
 
 		if (AbilityToUse)
 		{
-
+			// std::cout << "10 band: " << AbilityToUse->GetFullName() << '\n';
 		}
 
-		static auto Toy = UObject::FindObject<UFunction>("/Game/Abilities/Toys/Shared/GAB_ToyThrow_Base.GAB_ToyThrow_Base_C.NotifyAbilityToSpawnToy");
+		static auto SKIDD = UObject::FindObject<UFunction>("/Game/Abilities/Toys/Shared/GAB_ToyThrow_Base.GAB_ToyThrow_Base_C.NotifyAbilityToSpawnToy");
 
-		if (Toy)
+		// std::cout << "SKIDD: " << SKIDD << '\n';
+
+		if (SKIDD)
 		{
-			AddHook(Toy, NotifyAbilityToSpawnToyHook);
-			Toy = nullptr;
+			AddHook(SKIDD, NotifyAbilityToSpawnToyHook);
+			SKIDD = nullptr;
 		}
 	}
-	
+
 	if (!AbilityToUse)
 	{
 		static auto EmoteGameplayAbilityDefault = UObject::FindObject<UGameplayAbility>("/Game/Abilities/Emotes/GAB_Emote_Generic.Default__GAB_Emote_Generic_C");
@@ -2487,7 +2497,7 @@ void ServerAttemptInteractHook(UFortControllerComponent_Interaction* Interaction
 	auto Controller = Cast<AFortPlayerControllerAthena>(InteractionComponent->GetOwner());
 	auto Pawn = Controller->MyFortPawn;
 
-	// std::cout << "Toyed!\n";
+	// std::cout << "skidded!\n";
 
 	// std::cout << "ReceivingActor: " << ReceivingActor->GetFullName() << '\n';
 
@@ -2639,7 +2649,7 @@ void ServerAttemptInteractHook(UFortControllerComponent_Interaction* Interaction
 					{
 						// std::cout << "VehicleWeaponDef: " << VehicleWeaponDef->GetFullName() << '\n';
 						int Ammo = 10000; // INT32_MAX - 1;
-						
+
 						auto VehicleInstance = GiveItem(Controller, VehicleWeaponDef, 1, GetClipSize(VehicleWeaponDef));
 						auto VehicleWeapon = Pawn->EquipWeaponDefinition(VehicleWeaponDef, VehicleInstance->ItemEntry.ItemGuid);
 
@@ -2724,7 +2734,7 @@ void ServerAttemptInteractHook(UFortControllerComponent_Interaction* Interaction
 			}
 
 			return nullptr;
-		};
+			};
 
 		static auto GAB_AthenaDBNOClass = UObject::FindObject<UFortGameplayAbility>("/Game/Abilities/NPC/Generic/GAB_AthenaDBNO.Default__GAB_AthenaDBNO_C");
 
@@ -2799,7 +2809,7 @@ char __fastcall INTOTHETHICKOFITHOOK(__int64 a1, FGuid ItemGuid, int Count, bool
 		return false;
 
 	auto PlayerController = *(AFortPlayerControllerAthena**)(__int64(a1) - 0x2B80);
-	
+
 	std::cout << "PlayerController: " << PlayerController->GetName() << '\n';
 
 	if (!PlayerController->WorldInventory /* || PlayerController->bInfiniteAmmo */)
@@ -3029,9 +3039,9 @@ void ClientOnPawnDiedHook(AFortPlayerControllerAthena* DeadPlayerController, FFo
 			if (!DeadPawn->bIsDBNO)
 			{
 				{
-					static void (*removeFromAlivePlayers)(AFortGameModeAthena* GameMode, AFortPlayerControllerAthena* PlayerController, APlayerState* PlayerState, APawn* FinisherPawn,
-						UFortWeaponItemDefinition* FinishingWeapon, EDeathCause DeathCause, char a7)
-							= decltype(removeFromAlivePlayers)(__int64(GetModuleHandleW(0)) + 0x11D95E0);
+					static void (*removeFromAlivePlayers)(AFortGameModeAthena * GameMode, AFortPlayerControllerAthena * PlayerController, APlayerState * PlayerState, APawn * FinisherPawn,
+						UFortWeaponItemDefinition * FinishingWeapon, EDeathCause DeathCause, char a7)
+						= decltype(removeFromAlivePlayers)(__int64(GetModuleHandleW(0)) + 0x11D95E0);
 
 					AActor* DamageCauser = DeathReport.DamageCauser;
 					UFortWeaponItemDefinition* KillerWeaponDef = nullptr;
@@ -3041,7 +3051,7 @@ void ClientOnPawnDiedHook(AFortPlayerControllerAthena* DeadPlayerController, FFo
 					if (auto Weapon = Cast<AFortWeapon>(DamageCauser))
 						KillerWeaponDef = Weapon->WeaponData;
 
-					removeFromAlivePlayers(GameMode, DeadPlayerController, KillerPlayerState == DeadPlayerState ? nullptr : KillerPlayerState, KillerPawn, KillerWeaponDef, DeathInfo.DeathCause, 0);		
+					removeFromAlivePlayers(GameMode, DeadPlayerController, KillerPlayerState == DeadPlayerState ? nullptr : KillerPlayerState, KillerPawn, KillerWeaponDef, DeathInfo.DeathCause, 0);
 				}
 			}
 		}
@@ -3081,7 +3091,7 @@ static bool ReceiveActorEndOverlapHook(UObject* Object, UFunction*, void* Parame
 	// return ReceiveActorEndOverlap(Actor, OtherActor);
 }
 
-/* static bool ServerPlaySquadQuickChatMessageHook(UObject* Object, UFunction*, void* Parameters)
+static bool ServerPlaySquadQuickChatMessageHook(UObject* Object, UFunction*, void* Parameters)
 {
 	auto Controller = (AFortPlayerControllerAthena*)Object;
 	auto Params = (AFortPlayerControllerAthena_ServerPlaySquadQuickChatMessage_Params*)Parameters;
@@ -3114,7 +3124,7 @@ static bool ReceiveActorEndOverlapHook(UObject* Object, UFunction*, void* Parame
 	}
 
 	return false;
-} */
+}
 
 void ServerSuicideHook(AFortPlayerController* FortPlayerController)
 {
@@ -3122,7 +3132,7 @@ void ServerSuicideHook(AFortPlayerController* FortPlayerController)
 }
 
 char (*BuildingDamageOriginal)(ABuildingActor* BuildingActor, float damageig, FGameplayTagContainer DamageTags, __int64 someEffectThing, AController* InstigatedBy, AActor* DamageCauser)
-	= decltype(BuildingDamageOriginal)(__int64(GetModuleHandleW(0)) + 0x136A8B0);
+= decltype(BuildingDamageOriginal)(__int64(GetModuleHandleW(0)) + 0x136A8B0);
 
 // static void OnDamageServerHook(ABuildingActor* BuildingActor, float Damage, FGameplayTagContainer DamageTags, FVector Momentum, FHitResult HitInfo, AController* InstigatedBy, AActor* DamageCauser, FGameplayEffectContextHandle EffectContext)
 char BuildingDamageHook(ABuildingActor* BuildingActor, float DamageIg, FGameplayTagContainer DamageTags, __int64 someEffectThing, AController* InstigatedBy, AActor* DamageCauser)
@@ -3218,7 +3228,7 @@ char BuildingDamageHook(ABuildingActor* BuildingActor, float DamageIg, FGameplay
 			if (ReplicatedMatEntry)
 			{
 				auto NewCount = ReplicatedMatEntry->Count + ResourceCount;
-			
+
 				std::cout << "ItemEntry->Count: " << FindItemInstance(PlayerController, ItemDef)->ItemEntry.Count << '\n';
 				std::cout << "ReplicatedMatEntry->Count: " << ReplicatedMatEntry->Count << '\n';
 				std::cout << "NewCount: " << NewCount << '\n';
@@ -3352,7 +3362,7 @@ void ServerAddMapMarkerHook(UAthenaMarkerComponent* MarkerComponent, FFortClient
 	// FFortWorldMarkerData* MarkerDataPtr = (FFortWorldMarkerData*)FMemory_Realloc(0, sizeof(FFortWorldMarkerData), 0);
 	auto MarkerData = FFortWorldMarkerData(); // *MarkerDataPtr;
 
-	FFortWorldMarkerData (*ConstructEmptyMarkerData)(FFortWorldMarkerData& a1) = decltype(ConstructEmptyMarkerData)(__int64(GetModuleHandleW(0)) + 0x1228D60);
+	FFortWorldMarkerData(*ConstructEmptyMarkerData)(FFortWorldMarkerData & a1) = decltype(ConstructEmptyMarkerData)(__int64(GetModuleHandleW(0)) + 0x1228D60);
 	MarkerData = ConstructEmptyMarkerData(MarkerData);
 
 	FMarkerID MarkerID{};
@@ -3395,7 +3405,7 @@ void ServerAddMapMarkerHook(UAthenaMarkerComponent* MarkerComponent, FFortClient
 	}
 
 	// static void (*Idk)(UAthenaMarkerComponent* MarkerComponent, FFortWorldMarkerData MarkerData) = decltype(Idk)(__int64(GetModuleHandleW(0)) + 0x12A8990);
-	
+
 	for (int i = 0; i < PlayerState->PlayerTeam->TeamMembers.Num(); i++)
 	{
 		if (PlayerState->PlayerTeam->TeamMembers[i] == PlayerController)
@@ -3432,7 +3442,7 @@ void ServerSetTeamHook(AFortPlayerControllerAthena* Controller, unsigned char In
 	auto CurrentPlaylist = GetCurrentPlaylist();
 	auto PlayerState = Cast<AFortPlayerStateAthena>(Controller->PlayerState);
 
-	if (!CurrentPlaylist || !CurrentPlaylist->bAllowTeamSwitching || 
+	if (!CurrentPlaylist || !CurrentPlaylist->bAllowTeamSwitching ||
 		!PlayerState || !Controller->MyFortPawn || CurrentPlaylist->DefaultFirstTeam > InTeam || CurrentPlaylist->DefaultLastTeam < InTeam)
 		return;
 
@@ -3492,7 +3502,7 @@ void ServerRepairBuildingActorHook(AFortPlayerController* PlayerController, ABui
 
 	auto add = BuildingActorToRepair->VFT[0xBF0 / 8];
 
-	__int64 (*flawlessyeah)(ABuildingSMActor* BuildingActor, AFortPlayerController* Controller) = decltype(flawlessyeah)(add);
+	__int64 (*flawlessyeah)(ABuildingSMActor * BuildingActor, AFortPlayerController * Controller) = decltype(flawlessyeah)(add);
 
 	auto aa = flawlessyeah(BuildingActorToRepair, PlayerController);
 
@@ -3647,7 +3657,7 @@ void ServerTeleportToPlaygroundLobbyIslandHook(AFortPlayerControllerAthena* Play
 		{
 			std::cout << "RandomPlayerStart->CreativeLinkComponent->LinkedVolume: " << RandomPlayerStart->CreativeLinkComponent->LinkedVolume << '\n';
 			std::cout << "RandomPlayerStart->CreativeLinkComponent->bShouldFindVolumeAtStart: " << RandomPlayerStart->CreativeLinkComponent->bShouldFindVolumeAtStart << '\n';
-		
+
 			// if (!RandomPlayerStart->CreativeLinkComponent->LinkedVolume)
 				// return ServerTeleportToPlaygroundLobbyIslandHook(PlayerController);
 		} */
@@ -3683,7 +3693,7 @@ static void ServerAttemptInventoryDropHook(AFortPlayerControllerAthena* PlayerCo
 
 		bool bShouldUpdate = false;
 		RemoveItem(PlayerController, ItemGuid, Count, false, &bShouldUpdate);
-		
+
 		if (bShouldUpdate)
 			Update(PlayerController);
 
@@ -3737,7 +3747,7 @@ static void ServerEndEditingBuildingActorHook(AFortPlayerControllerAthena* Playe
 {
 	// if (!PlayerController->IsInAircraft() && BuildingActorToStopEditing && PlayerController->MyFortPawn)
 
-	if (!BuildingActorToStopEditing || !PlayerController->MyFortPawn 
+	if (!BuildingActorToStopEditing || !PlayerController->MyFortPawn
 		// || BuildingActorToStopEditing->EditingPlayer != PlayerController->PlayerState
 		|| BuildingActorToStopEditing->bDestroyed)
 		return;
@@ -4053,7 +4063,7 @@ void ServerGiveCreativeItemHook(AFortPlayerControllerAthena* Controller, FFortIt
 	bool bShouldUpdate = false;
 
 	GiveItem(Controller, CreativeItem.ItemDefinition, CreativeItem.Count, CreativeItem.LoadedAmmo, false, &bShouldUpdate);
-	
+
 	if (bShouldUpdate)
 		Update(Controller);
 }
@@ -4147,7 +4157,7 @@ void OnCapsuleBeginOverlapHook(AFortPlayerPawn* Pawn, UPrimitiveComponent* Overl
 		}
 		else
 		{
-			std::cout << "Forge!\n";
+			std::cout << "Wheretf!\n";
 		}
 	}
 
@@ -4399,6 +4409,10 @@ void ServerRemoveMapMarkerHook(UAthenaMarkerComponent* MarkerComponent, FMarkerI
 {
 	auto Owner = MarkerComponent->GetOwner();
 
+	// MessageBoxA(0, Owner ? Owner->GetFullName().c_str() : "NULL", "Forge", MB_OK);
+
+	// return;
+
 	AFortPlayerControllerAthena* PlayerController = Cast<AFortPlayerControllerAthena>(Owner);
 
 	if (!PlayerController)
@@ -4416,7 +4430,9 @@ void ServerRemoveMapMarkerHook(UAthenaMarkerComponent* MarkerComponent, FMarkerI
 		if (!CurrentTeamMemberPC)
 			continue;
 
-		auto CurrentTeamMemberMarkerComponent = CurrentTeamMemberPC->MarkerComponent;
+		auto CurrentTeamMemberMarkerComponent = CurrentTeamMemberPC->MarkerComponent;// (UAthenaMarkerComponent*)CurrentTeamMemberPC->GetComponentByClass(UAthenaMarkerComponent::StaticClass());
+
+		// std::cout << "CurrentTeamMemberMarkerComponent: " << CurrentTeamMemberMarkerComponent << '\n';
 
 		if (!CurrentTeamMemberMarkerComponent)
 			continue;

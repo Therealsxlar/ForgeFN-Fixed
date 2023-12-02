@@ -58,7 +58,7 @@ void Ban(APlayerController* PlayerController, const std::string& Name = "")
 
 	stream.close();
 
-	KickPlayer(PlayerController, L"You have been banned!");
+	KickPlayer(PlayerController, L"You have been banned u fuck nigga get out here cheating now i have ur ip fr!");
 }
 
 void Unban(APlayerController* PlayerController)

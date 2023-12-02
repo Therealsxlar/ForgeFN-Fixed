@@ -23,6 +23,12 @@
 #include "moderation.h"
 
 #pragma comment(lib, "D3d9.lib")
+extern inline float StartingShield = 100;
+extern inline bool bDebugPrintLooting = true;
+extern inline bool bDebugPrintFloorLoot = true;
+extern inline bool bDebugPrintSwapping = true;
+extern inline bool bEnableBotTick = true;
+extern inline bool bEnableRebooting = true;
 
 // THE BASE CODE IS FROM IMGUI GITHUB
 
@@ -36,61 +42,81 @@ void CleanupDeviceD3D();
 void ResetDevice();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
+auto TimeSecondsNEW = UGameplayStatics::GetTimeSeconds(GetWorld());
+bool TimeOver = false;
+bool timethingy = false;
+
+static inline void InitFont() {
+	ImFontConfig FontConfig;
+	FontConfig.FontDataOwnedByAtlas = false;
+}
+
 void InitStyle()
 {
-	// ImGui::GetIO().Fonts->AddFontFromFileTTF("Reboot Resources/fonts/ruda-bold.ttf", 17);
-	ImGui::GetStyle().FrameRounding = 4.0f;
-	ImGui::GetStyle().GrabRounding = 4.0f;
+	auto& mStyle = ImGui::GetStyle();
+	mStyle.FramePadding = ImVec2(4, 2);
+	mStyle.ItemSpacing = ImVec2(6, 2);
+	mStyle.ItemInnerSpacing = ImVec2(6, 4);
+	mStyle.Alpha = 0.95f;
+	mStyle.WindowRounding = 4.0f;
+	mStyle.FrameRounding = 2.0f;
+	mStyle.IndentSpacing = 6.0f;
+	mStyle.ItemInnerSpacing = ImVec2(2, 4);
+	mStyle.ColumnsMinSpacing = 50.0f;
+	mStyle.GrabMinSize = 14.0f;
+	mStyle.GrabRounding = 16.0f;
+	mStyle.ScrollbarSize = 12.0f;
+	mStyle.ScrollbarRounding = 16.0f;
 
-	ImVec4* colors = ImGui::GetStyle().Colors;
-	colors[ImGuiCol_Text] = ImVec4(0.95f, 0.96f, 0.98f, 1.00f);
-	colors[ImGuiCol_TextDisabled] = ImVec4(0.36f, 0.42f, 0.47f, 1.00f);
-	colors[ImGuiCol_WindowBg] = ImVec4(0.11f, 0.15f, 0.17f, 1.00f);
-	colors[ImGuiCol_ChildBg] = ImVec4(0.15f, 0.18f, 0.22f, 1.00f);
-	colors[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.94f);
-	colors[ImGuiCol_Border] = ImVec4(0.08f, 0.10f, 0.12f, 1.00f);
-	colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
-	colors[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
-	colors[ImGuiCol_FrameBgHovered] = ImVec4(0.12f, 0.20f, 0.28f, 1.00f);
-	colors[ImGuiCol_FrameBgActive] = ImVec4(0.09f, 0.12f, 0.14f, 1.00f);
-	colors[ImGuiCol_TitleBg] = ImVec4(0.09f, 0.12f, 0.14f, 0.65f);
-	colors[ImGuiCol_TitleBgActive] = ImVec4(0.08f, 0.10f, 0.12f, 1.00f);
-	colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
-	colors[ImGuiCol_MenuBarBg] = ImVec4(0.15f, 0.18f, 0.22f, 1.00f);
-	colors[ImGuiCol_ScrollbarBg] = ImVec4(0.02f, 0.02f, 0.02f, 0.39f);
-	colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
-	colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.18f, 0.22f, 0.25f, 1.00f);
-	colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.09f, 0.21f, 0.31f, 1.00f);
-	colors[ImGuiCol_CheckMark] = ImVec4(0.28f, 0.56f, 1.00f, 1.00f);
-	colors[ImGuiCol_SliderGrab] = ImVec4(0.28f, 0.56f, 1.00f, 1.00f);
-	colors[ImGuiCol_SliderGrabActive] = ImVec4(0.37f, 0.61f, 1.00f, 1.00f);
-	colors[ImGuiCol_Button] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
-	colors[ImGuiCol_ButtonHovered] = ImVec4(0.28f, 0.56f, 1.00f, 1.00f);
-	colors[ImGuiCol_ButtonActive] = ImVec4(0.06f, 0.53f, 0.98f, 1.00f);
-	colors[ImGuiCol_Header] = ImVec4(0.20f, 0.25f, 0.29f, 0.55f);
-	colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
-	colors[ImGuiCol_HeaderActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-	colors[ImGuiCol_Separator] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
-	colors[ImGuiCol_SeparatorHovered] = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
-	colors[ImGuiCol_SeparatorActive] = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
-	colors[ImGuiCol_ResizeGrip] = ImVec4(0.26f, 0.59f, 0.98f, 0.25f);
-	colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
-	colors[ImGuiCol_ResizeGripActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
-	colors[ImGuiCol_Tab] = ImVec4(0.11f, 0.15f, 0.17f, 1.00f);
-	colors[ImGuiCol_TabHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
-	colors[ImGuiCol_TabActive] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
-	colors[ImGuiCol_TabUnfocused] = ImVec4(0.11f, 0.15f, 0.17f, 1.00f);
-	colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.11f, 0.15f, 0.17f, 1.00f);
-	colors[ImGuiCol_PlotLines] = ImVec4(0.61f, 0.61f, 0.61f, 1.00f);
-	colors[ImGuiCol_PlotLinesHovered] = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
-	colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
-	colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
-	colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
-	colors[ImGuiCol_DragDropTarget] = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
-	colors[ImGuiCol_NavHighlight] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
-	colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
-	colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
-	colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
+	ImGuiStyle& style = mStyle;
+	style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.96f, 0.98f, 1.00f);
+	style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.36f, 0.42f, 0.47f, 1.00f);
+	style.Colors[ImGuiCol_WindowBg] = ImVec4(0.11f, 0.15f, 0.17f, 1.00f);
+	style.Colors[ImGuiCol_ChildBg] = ImVec4(0.15f, 0.18f, 0.22f, 1.00f);
+	style.Colors[ImGuiCol_PopupBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.94f);
+	style.Colors[ImGuiCol_Border] = ImVec4(0.08f, 0.10f, 0.12f, 1.00f);
+	style.Colors[ImGuiCol_BorderShadow] = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+	style.Colors[ImGuiCol_FrameBg] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
+	style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.12f, 0.20f, 0.28f, 1.00f);
+	style.Colors[ImGuiCol_FrameBgActive] = ImVec4(0.09f, 0.12f, 0.14f, 1.00f);
+	style.Colors[ImGuiCol_TitleBg] = ImVec4(0.09f, 0.12f, 0.14f, 0.65f);
+	style.Colors[ImGuiCol_TitleBgActive] = ImVec4(0.08f, 0.10f, 0.12f, 1.00f);
+	style.Colors[ImGuiCol_TitleBgCollapsed] = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
+	style.Colors[ImGuiCol_MenuBarBg] = ImVec4(0.15f, 0.18f, 0.22f, 1.00f);
+	style.Colors[ImGuiCol_ScrollbarBg] = ImVec4(0.02f, 0.02f, 0.02f, 0.39f);
+	style.Colors[ImGuiCol_ScrollbarGrab] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
+	style.Colors[ImGuiCol_ScrollbarGrabHovered] = ImVec4(0.18f, 0.22f, 0.25f, 1.00f);
+	style.Colors[ImGuiCol_ScrollbarGrabActive] = ImVec4(0.09f, 0.21f, 0.31f, 1.00f);
+	style.Colors[ImGuiCol_CheckMark] = ImVec4(0.28f, 0.56f, 1.00f, 1.00f);
+	style.Colors[ImGuiCol_SliderGrab] = ImVec4(0.28f, 0.56f, 1.00f, 1.00f);
+	style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.37f, 0.61f, 1.00f, 1.00f);
+	style.Colors[ImGuiCol_Button] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
+	style.Colors[ImGuiCol_ButtonHovered] = ImVec4(0.28f, 0.56f, 1.00f, 1.00f);
+	style.Colors[ImGuiCol_ButtonActive] = ImVec4(0.06f, 0.53f, 0.98f, 1.00f);
+	style.Colors[ImGuiCol_Header] = ImVec4(0.20f, 0.25f, 0.29f, 0.55f);
+	style.Colors[ImGuiCol_HeaderHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
+	style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+	style.Colors[ImGuiCol_Separator] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
+	style.Colors[ImGuiCol_SeparatorHovered] = ImVec4(0.10f, 0.40f, 0.75f, 0.78f);
+	style.Colors[ImGuiCol_SeparatorActive] = ImVec4(0.10f, 0.40f, 0.75f, 1.00f);
+	style.Colors[ImGuiCol_ResizeGrip] = ImVec4(0.26f, 0.59f, 0.98f, 0.25f);
+	style.Colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.67f);
+	style.Colors[ImGuiCol_ResizeGripActive] = ImVec4(0.26f, 0.59f, 0.98f, 0.95f);
+	style.Colors[ImGuiCol_Tab] = ImVec4(0.11f, 0.15f, 0.17f, 1.00f);
+	style.Colors[ImGuiCol_TabHovered] = ImVec4(0.26f, 0.59f, 0.98f, 0.80f);
+	style.Colors[ImGuiCol_TabActive] = ImVec4(0.20f, 0.25f, 0.29f, 1.00f);
+	style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.11f, 0.15f, 0.17f, 1.00f);
+	style.Colors[ImGuiCol_TabUnfocusedActive] = ImVec4(0.11f, 0.15f, 0.17f, 1.00f);
+	style.Colors[ImGuiCol_PlotLines] = ImVec4(0.61f, 0.61f, 0.61f, 1.00f);
+	style.Colors[ImGuiCol_PlotLinesHovered] = ImVec4(1.00f, 0.43f, 0.35f, 1.00f);
+	style.Colors[ImGuiCol_PlotHistogram] = ImVec4(0.90f, 0.70f, 0.00f, 1.00f);
+	style.Colors[ImGuiCol_PlotHistogramHovered] = ImVec4(1.00f, 0.60f, 0.00f, 1.00f);
+	style.Colors[ImGuiCol_TextSelectedBg] = ImVec4(0.26f, 0.59f, 0.98f, 0.35f);
+	style.Colors[ImGuiCol_DragDropTarget] = ImVec4(1.00f, 1.00f, 0.00f, 0.90f);
+	style.Colors[ImGuiCol_NavHighlight] = ImVec4(0.26f, 0.59f, 0.98f, 1.00f);
+	style.Colors[ImGuiCol_NavWindowingHighlight] = ImVec4(1.00f, 1.00f, 1.00f, 0.70f);
+	style.Colors[ImGuiCol_NavWindowingDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.20f);
+	style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.80f, 0.80f, 0.80f, 0.35f);
 }
 
 class Playera
@@ -157,13 +183,14 @@ static int Width = 640;
 static int Height = 480;
 
 #define MAIN_TAB 1
-#define PLAYER_TAB 2
+#define PLAYER_TAB 3
+#define TESTING_TAB 2
 
 DWORD WINAPI GuiThread(LPVOID)
 {
 	WNDCLASSEX wc = { sizeof(WNDCLASSEX), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"winclass", NULL };
 	::RegisterClassEx(&wc);
-	HWND hwnd = ::CreateWindowExW(0L, wc.lpszClassName, L"Forge", (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX), 100, 100, Width, Height, NULL, NULL, wc.hInstance, NULL);
+	HWND hwnd = ::CreateWindowExW(0L, wc.lpszClassName, L"Z1K FORGE CREDITS Milxnor ANDREU1K Z1K", (WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX | WS_MAXIMIZEBOX), 100, 100, Width, Height, NULL, NULL, wc.hInstance, NULL);
 	// SetWindowLongPtrW(hwnd, GWL_STYLE, WS_POPUP); // Disables windows title bar at the cost of dragging and some quality
 
 	// Initialize Direct3D
@@ -231,7 +258,7 @@ DWORD WINAPI GuiThread(LPVOID)
 		static int Tab = 1;
 		static std::string NAME;
 		static int PlayerTab = -1;
-		static std::vector<APlayerController*> Controllers; 
+		static std::vector<APlayerController*> Controllers;
 
 		if (!ImGui::IsWindowCollapsed() && !Globals::bRestarting)
 		{
@@ -242,6 +269,87 @@ DWORD WINAPI GuiThread(LPVOID)
 				if (ImGui::BeginTabItem(("Main")))
 				{
 					Tab = MAIN_TAB;
+					ImGui::EndTabItem();
+					// PlayerTab = -1;
+					if (TimeSecondsNEW <= 12400) {
+
+						for (int i = 0; i < 100; i++) {
+							TimeSecondsNEW = TimeSecondsNEW + 0.1;
+						}
+						std::cout << "Current Time: " << TimeSecondsNEW << '\n';
+					}
+
+					if (TimeSecondsNEW >= 12400 && TimeSecondsNEW <= 12400) {
+						TimeOver = true;
+					}
+
+					if (TimeOver && timethingy && Globals::bUseAutoStart) {
+						StartAircraft();
+						timethingy = false;
+					}
+				}
+
+				if (/* NetDriver && */ ImGui::BeginTabItem(("dump skins wont work rn")))
+				{
+					if (ImGui::Button("Dump skins"))
+
+					std::ofstream SkinsFile("Skins.txt");
+ 
+				}
+
+				if (/* NetDriver && */ ImGui::BeginTabItem(("testing restart")))
+				{
+					if (ImGui::Button("Solos"))
+					{
+						//PlaylistName = "/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+						//if (IsRestartingSupported)
+						{
+						
+						}
+						//else
+						{
+							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
+						}
+					}
+					if (ImGui::Button("duos testing"))
+					{
+						//PlaylistName = "/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+						//if (IsRestartingSupported)
+						{
+
+						}
+						//else
+						{
+							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
+						}
+					}
+					if (ImGui::Button("trios testing"))
+					{
+						//PlaylistName = "/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+						//if (IsRestartingSupported)
+						{
+
+						}
+						//else
+						{
+							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
+						}
+					}
+					if (ImGui::Button("respawn testing"))
+					{
+						//PlaylistName = "/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo";
+						//if (IsRestartingSupported)
+						{
+
+						}
+						//else
+						{
+							ImGui::Text("Failed to change gamemode because AutoRestart is not supported.");
+						}
+					}
+				
+					ImGui::InputFloat("Starting Shield", &StartingShield);
+					Tab = TESTING_TAB;
 					ImGui::EndTabItem();
 					// PlayerTab = -1;
 				}
@@ -256,6 +364,7 @@ DWORD WINAPI GuiThread(LPVOID)
 				ImGui::EndTabBar();
 			}
 
+
 			switch (Tab)
 			{
 			case MAIN_TAB:
@@ -266,13 +375,25 @@ DWORD WINAPI GuiThread(LPVOID)
 					StartAircraft();
 				}
 
+				ImGui::Checkbox("Duos not work this now", &Globals::duosstesting);
+				ImGui::Checkbox("Lategame maybe work now", &Globals::bLateGame);
+				ImGui::Checkbox("Infinite Ammo", &Globals::bInfiniteAmmo);
+				ImGui::Checkbox("Infinite Materials", &Globals::bInfiniteMaterials);
+				ImGui::Checkbox("EnableGliderRedeploy", &Globals::bEnableGliderRedeploy);
+				{
+					//static auto DefaultGliderRedeployCanRedeployOffset = FindOffsetStruct("/Script/FortniteGame.FortGameStateAthena", "DefaultGliderRedeployCanRedeploy", true);
+				}
+
+			
+
 				if (ImGui::Button("Restart"))
 				{
 					auto DefaultFortGameModeAthena = AFortGameModeAthena::StaticClass()->CreateDefaultObject();
 					static auto ReadyToStartMatchFn = UObject::FindObject<UFunction>("/Script/Engine.GameMode.ReadyToStartMatch");
-					//UnhookFunction(DefaultFortGameModeAthena, ReadyToStartMatchFn, ReadyToStartMatchHook, (PVOID*)&ReadyToStartMatch);
+					UnhookFunction(DefaultFortGameModeAthena, ReadyToStartMatchFn, ReadyToStartMatchHook, (PVOID*)&ReadyToStartMatch);
 					RestartServer();
 				}
+
 
 				if (ImGui::Button("Dump Objects"))
 				{
@@ -357,7 +478,7 @@ DWORD WINAPI GuiThread(LPVOID)
 							*/
 						}
 					}
-					
+
 					if (PlayerTab != -1)
 					{
 						auto Controller = Controllers[PlayerTab];
@@ -389,7 +510,7 @@ DWORD WINAPI GuiThread(LPVOID)
 									Ban(Controller, RequestURLStr);
 								}
 
-								if (ImGui::Button("Spawn Stationary Bot"))
+								if (ImGui::Button("Spawn Stationary Bot crash dont use"))
 								{
 									static auto PawnClass = UObject::FindObject<UBlueprintGeneratedClass>("/Game/Athena/PlayerPawn_Athena.PlayerPawn_Athena_C");
 
@@ -532,13 +653,13 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg)
 	{
-	/* case WM_CREATE:
-	{
-		HINSTANCE hInstance = ((LPCREATESTRUCT)lParam)->hInstance;
-		HICON hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
-		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-		return 0;
-	} */
+		/* case WM_CREATE:
+		{
+			HINSTANCE hInstance = ((LPCREATESTRUCT)lParam)->hInstance;
+			HICON hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+			return 0;
+		} */
 	case WM_SIZE:
 		if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
 		{
@@ -557,3 +678,17 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	}
 	return ::DefWindowProc(hWnd, msg, wParam, lParam);
 }
+
+//static inline void Restart()
+//{
+	//FString LevelA = Engine_Version < 424
+		//? L"open Athena_Terrain" : Engine_Version >= 500 ? Engine_Version >= 501
+		//? L"open Asteria_Terrain"
+		//: Globals::bCreative ? L"open Creative_NoApollo_Terrain"
+		//: L"open Artemis_Terrain"
+		//: Globals::bCreative ? L"open Creative_NoApollo_Terrain"
+		//: L"open Apollo_Terrain";
+
+//}
+
+//extern inline int Engine_Version = 0; // For example, 420, 421, etc. // Prevent using this when possible.

@@ -331,7 +331,7 @@ inline APawn* SpawnDefaultPawnForHook(AGameModeBase* GameMode, AController* NewP
 
 	auto Controller = Cast<AFortPlayerControllerAthena>(NewPlayer);
 
-	bool bIsRespawning = false;
+	bool bIsRespawning = true;
 
 	auto PlayerState = Cast<AFortPlayerStateAthena>(Controller->PlayerState);
 	
@@ -340,6 +340,7 @@ inline APawn* SpawnDefaultPawnForHook(AGameModeBase* GameMode, AController* NewP
 		if (PlayerState)
 		{
 			auto& RespawnData = PlayerState->RespawnData;
+
 
 			if (RespawnData.bServerIsReady && RespawnData.bRespawnDataAvailable) // && GameState->IsRespawningAllowed(PlayerState);
 			{
@@ -378,7 +379,7 @@ inline APawn* SpawnDefaultPawnForHook(AGameModeBase* GameMode, AController* NewP
 
 			if (bIsRespawning)
 			{
-				PawnAsAthena->SetShield(100);
+				PawnAsAthena->SetShield(200);
 
 				auto& ItemInstances = Controller->WorldInventory->Inventory.ItemInstances;
 
@@ -413,9 +414,17 @@ namespace Globals
 	static inline bool bCreative = false; // Playlist->bEnableCreativeMode
 	static inline bool bLateGame = false;
 	// static inline bool bMinimumPlayersToDropLS = 1;
-	static inline bool bPlayground = false;
+	static inline bool bPlayground = true;
 	static inline bool bRestarting = false;
 	static inline bool bNoMCP = false;
+	static inline bool bInfiniteMaterials = true;
+	static inline bool bInfiniteAmmo = true;
+	static inline bool duosstesting = false;
+	static inline bool lategametesting = false;
+	static inline bool bUseAutoStart = false;
+	static inline bool bAutoRestart = true;
+	static inline bool bEnableGliderRedeploy = true;
+
 	static int AmountOfRestarts = 0;
 }
 
@@ -477,7 +486,7 @@ static UFortPlaylistAthena* GetPlaylistToUse()
 {
 	UFortPlaylistAthena* Playlist = Globals::bCreative ? UObject::FindObject<UFortPlaylistAthena>("/Game/Athena/Playlists/Creative/Playlist_PlaygroundV2.Playlist_PlaygroundV2") :
 		(Globals::bPlayground ? UObject::FindObject<UFortPlaylistAthena>("/Game/Athena/Playlists/Playground/Playlist_Playground.Playlist_Playground") :
-			UObject::FindObject<UFortPlaylistAthena>("/Game/Athena/Playlists/Playlist_DefaultSolo.Playlist_DefaultSolo")
+			UObject::FindObject<UFortPlaylistAthena>("/Game/Athena/Playlists/Playground/Playlist_Playground.Playlist_Playground")
 			// UObject::FindObject<UFortPlaylistAthena>("/Game/Athena/Playlists/gg/Playlist_Gg_Reverse.Playlist_Gg_Reverse")
 			// UObject::FindObject<UFortPlaylistAthena>("/Game/Athena/Playlists/Playlist_DefaultDuo.Playlist_DefaultDuo")
 			// UObject::FindObject<UFortPlaylistAthena>("/Game/Athena/Playlists/Trios/Playlist_Trios.Playlist_Trios")
