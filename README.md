@@ -12,3 +12,4 @@
 * You're own traps kill you (so i took them out for the time-being) 
 * Still boredd and bored
 * Bored
+* Lategame (i forgot)
