@@ -13,3 +13,7 @@
 * Still boredd and bored
 * Bored
 * Lategame (i forgot)
+
+# I'M STUPID
+* if you get an error and it says detours just uninstall it and reinstall it
+* if you don't know how to do it then search it up 🤦‍♂️
