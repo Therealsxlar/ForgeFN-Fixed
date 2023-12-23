@@ -1555,30 +1555,6 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 
 	PlayerState->bHasStartedPlaying = true;
 	PlayerState->OnRep_bHasStartedPlaying();
-
-	UAthenaPickaxeItemDefinition* PickaxeDefinition = nullptr; // Hopefully this is new fix bro!
-	
-	static auto PickaxeRaiders = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");
-
-	if (Globals::bNoMCP) {
-		PickaxeDefinition = GetRandomObjectOfClass<UAthenaPickaxeItemDefinition>(true, true);
-	}
-	else {
-		if (NewPlayer->CosmeticLoadoutPC.Pickaxe == nullptr) {
-			PickaxeDefinition = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");
-			NewPlayer->CosmeticLoadoutPC.Pickaxe = PickaxeDefinition;
-		}
-		else {
-			PickaxeDefinition = NewPlayer->CosmeticLoadoutPC.Pickaxe;
-			PickaxeRaiders = UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Weapons/WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01.WID_Harvest_Pickaxe_Lockjaw_Athena_C_T01");;
-		}
-	}
-
-	if (PickaxeDefinition != nullptr) {
-		GiveItem(NewPlayer, PickaxeDefinition->WeaponDefinition, 1); 
-		NewPlayer->CosmeticLoadoutPC.Pickaxe = PickaxeRaiders;
-	}
-	// Haven't tested it out might work tho! Might still give default pickaxe.........
 	
 	auto PickaxeDefinition = Globals::bNoMCP ? GetRandomObjectOfClass<UAthenaPickaxeItemDefinition>(true, true) :
 		NewPlayer->CosmeticLoadoutPC.Pickaxe; // UObject::FindObject<UAthenaPickaxeItemDefinition>("/Game/Athena/Items/Cosmetics/Pickaxes/DefaultPickaxe.DefaultPickaxe"); // This says that this code just gives you the default pickaxe.
