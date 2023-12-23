@@ -1,30 +1,14 @@
-# Forge
-Fortnite gameserver for 10.40.
+# Fortnite GS
+* Forge is a 10.40 open-sourced Game Server used for Educational Purposes Only.
+* Doesn't mean you SKID it and host for yourself without giving credits.
 
 # By me?
-**I fixed building the dll**
-* Everything else in main features was done by milxnor and his crew.
+* Updated GUI
+* Pickaxes (i just want mcp to work its so easy im jsut to lazy)
 
-**Please keep in mind I'm not that good at C++ and only know a little bit**
+**All of this Game Server was completely done by Milxnor and whoever else worked on it**
 
-# I'm back
-* Lowkey bored so ima work on this again.
-
-Main features:
-
-- proper looting
-- chest stars
-- directional fix + weakspot fix
-- vehicles
-- semi working creative (framework.h)
-- some little gameplay features
-- pretty accurate harvesting rate
-- run over ammo & mats
-- pickup delay
-- repairing
-- team map markers
-- killfeed works
-
-# ERRORS:
-* You're own traps kill you...
-I'm taking traps out until I fix it.
+# ERRORS
+* You're own traps kill you (so i took them out for the time-being) 
+* Still boredd and bored
+* Bored
