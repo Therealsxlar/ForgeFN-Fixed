@@ -4,7 +4,7 @@
 
 # By me?
 * Updated GUI
-* Pickaxes (i just want mcp to work its so easy im jsut to lazy)
+* Pickaxes (i understand im just to lazy to do it rn)
 
 **All of this Game Server was completely done by Milxnor and whoever else worked on it**
 
