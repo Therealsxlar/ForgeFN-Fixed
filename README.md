@@ -5,6 +5,7 @@
 # By me?
 * Updated GUI
 * Pickaxes (i understand im just to lazy to do it rn)
+* Auto Start fixed completely
 
 **All of this Game Server was completely done by Milxnor and whoever else worked on it**
 
