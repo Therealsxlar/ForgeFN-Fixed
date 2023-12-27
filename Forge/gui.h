@@ -265,19 +265,19 @@ DWORD WINAPI GuiThread(LPVOID)
 			{
 			case MAIN_TAB:
 				ImGui::Checkbox("Log ProcessEvent", &Globals::bLogProcessEvent);
-                                if (CurrentGameTimeSeconds <= 132000) {
-                                for (int i = 0; i < 100; i++) {
-                                CurrentGameTimeSeconds += 0.1;
-                            }
-                            std::cout << "Current Time: " << CurrentGameTimeSeconds << '\n';
-                        }
-                                if (CurrentGameTimeSeconds >= 130000 && CurrentGameTimeSeconds <= 132000) {
-                                IsTimeOver = true;
-                        }
-                                if (IsTimeOver && IsTimeTrue && Globals::bAutoStart) { // ahh
-                                StartAircraft();
-                                IsTimeTrue = false;
-                                }
+                        if (CurrentGameTimeSeconds <= 132000) {
+                        for (int i = 0; i < 100; i++) {
+                        CurrentGameTimeSeconds += 0.1;
+                      }
+                      std::cout << "Current Time: " << CurrentGameTimeSeconds << '\n';
+                    }
+                      if (CurrentGameTimeSeconds >= 130000 && CurrentGameTimeSeconds <= 132000) {
+                      IsTimeOver = true;
+                    }
+                    if (IsTimeOver && IsTimeTrue && Globals::bAutoStart) {
+                    StartAircraft();
+                    IsTimeTrue = false;
+                }
 				if (ImGui::Button("Start Aircraft"))
 				{
 					StartAircraft();
