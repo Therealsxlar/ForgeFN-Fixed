@@ -234,9 +234,10 @@ DWORD WINAPI GuiThread(LPVOID)
 		static std::vector<APlayerController*> Controllers; 
 		
                 float CurrentGameTimeSeconds = UGameplayStatics::GetTimeSeconds(GetWorld());
+		bool IsTimeOver = false;
+		bool HasStartedAircraft = false;
 
-                bool IsTimeOver = false;
-                bool IsTimeTrue = true;
+		const float WaitTime = 200.0f;
 
 		if (!ImGui::IsWindowCollapsed() && !Globals::bRestarting)
 		{
@@ -265,19 +266,15 @@ DWORD WINAPI GuiThread(LPVOID)
 			{
 			case MAIN_TAB:
 				ImGui::Checkbox("Log ProcessEvent", &Globals::bLogProcessEvent);
-                        if (CurrentGameTimeSeconds <= 132000) {
-                        for (int i = 0; i < 100; i++) {
-                        CurrentGameTimeSeconds += 0.1;
-                      }
-                      std::cout << "Current Time: " << CurrentGameTimeSeconds << '\n';
-                    }
-                      if (CurrentGameTimeSeconds >= 130000 && CurrentGameTimeSeconds <= 132000) {
-                      IsTimeOver = true;
-                    }
-                    if (IsTimeOver && IsTimeTrue && Globals::bAutoStart) {
-                    StartAircraft();
-                    IsTimeTrue = false;
-                }
+				if (CurrentGameTimeSeconds >= WaitTime && !HasStartedAircraft) {
+					StartAircraft();
+					std::cout << "Aircraft Started\n";
+					HasStartedAircraft = true;
+				}
+
+				if (HasStartedAircraft) {
+					return HasStartedAircraft; // Closes GUI forge GUI
+				}
 				if (ImGui::Button("Start Aircraft"))
 				{
 					StartAircraft();
