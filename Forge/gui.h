@@ -236,8 +236,7 @@ DWORD WINAPI GuiThread(LPVOID)
                 float CurrentGameTimeSeconds = UGameplayStatics::GetTimeSeconds(GetWorld());
 		bool IsTimeOver = false;
 		bool HasStartedAircraft = false;
-
-		const float WaitTime = 200.0f;
+		const float WaitTime = 200.0f; // 200 seconds because your PC might be slow. Don't change
 
 		if (!ImGui::IsWindowCollapsed() && !Globals::bRestarting)
 		{
@@ -273,7 +272,8 @@ DWORD WINAPI GuiThread(LPVOID)
 				}
 
 				if (HasStartedAircraft) {
-					return HasStartedAircraft; // Closes GUI forge GUI
+					return HasStartedAircraft; // Returns so it doesn't spam start aircraft. 
+                                        // This is also why the GUI closes
 				}
 				if (ImGui::Button("Start Aircraft"))
 				{
