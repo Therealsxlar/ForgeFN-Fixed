@@ -274,7 +274,7 @@ DWORD WINAPI GuiThread(LPVOID)
                                 if (CurrentGameTimeSeconds >= 130000 && CurrentGameTimeSeconds <= 132000) {
                                 IsTimeOver = true;
                         }
-                                if (IsTimeOver && IsTimeTrue && Globals::bUseAutoStart) {
+                                if (IsTimeOver && IsTimeTrue && Globals::bAutoStart) { // ahh
                                 StartAircraft();
                                 IsTimeTrue = false;
                                 }
