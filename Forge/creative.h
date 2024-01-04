@@ -71,7 +71,7 @@ void LoadIsland(const std::string SaveFileName, AFortVolume* LoadIntoVolume)
 
 			}
 
-			// std::cout << "stuff.size(): " << stuff.size() << '\n';
+			std::cout << "stuff.size(): " << stuff.size() << '\n';
 
 			if (stuff.size() >= 8)
 			{
@@ -95,10 +95,10 @@ void LoadIsland(const std::string SaveFileName, AFortVolume* LoadIntoVolume)
 				if (!NewActor)
 					continue;
 
-				// NewActor->bCanBeDamaged = false;
+				 NewActor->bCanBeDamaged = false;
 				NewActor->InitializeKismetSpawnedBuildingActor(NewActor, nullptr, false);
 				NewActor->TeamIndex = stuff[6];
-				// NewActor->SetHealth(stuff[7]);
+				 NewActor->SetHealth(stuff[7]);
 
 				auto ActorOptionsComponent = (UFortActorOptionsComponent*)NewActor->GetComponentByClass(UFortActorOptionsComponent::StaticClass());
 
@@ -106,7 +106,7 @@ void LoadIsland(const std::string SaveFileName, AFortVolume* LoadIntoVolume)
 
 				if (ActorOptionsComponent)
 				{
-					// UE::TMap<FString, FString> Map{};
+					UE::TMap<FString, FString> Map{};
 
 					std::cout << "DevicePropertiesStr.size(): " << DevicePropertiesStr.size() << '\n';
 					std::cout << "ActorOptionsComponent->PlayerOptionData.PropertyOverrides.Num(): " << ActorOptionsComponent->PlayerOptionData.PropertyOverrides.Num() << '\n';
@@ -124,9 +124,9 @@ void LoadIsland(const std::string SaveFileName, AFortVolume* LoadIntoVolume)
 
 						FPropertyOverrideMk2 OverrideSkidda;
 						OverrideSkidda.PropertyName = PropertyNameWStr.c_str();
-							// std::wstring(PropertyName.begin(), PropertyName.end()).c_str();
+							std::wstring(PropertyName.begin(), PropertyName.end()).c_str();
 						OverrideSkidda.PropertyData = PropertyDataWStr.c_str();
-							// std::wstring(PropertyData.begin(), PropertyData.end()).c_str();
+						 std::wstring(PropertyData.begin(), PropertyData.end()).c_str();
 
 						std::wcout << L"[" + PropertyNameWStr + L"] " + PropertyDataWStr << '\n';
 
@@ -147,16 +147,16 @@ void LoadIsland(const std::string SaveFileName, AFortVolume* LoadIntoVolume)
 
 					std::cout << "\n\n";
 
-					// ActorOptionsComponent->SetPropertyOverrides(*(TMap<FString, FString>*)&Map);
-					// ActorOptionsComponent->SetPropertyOverrideValues(*(TMap<FString, FString>*)&Map); // stripped
+					 ActorOptionsComponent->SetPropertyOverrides(*(TMap<FString, FString>*)&Map);
+				 ActorOptionsComponent->SetPropertyOverrideValues(*(TMap<FString, FString>*)&Map); // stripped
 
-					/* TMap<FString, FString> Fstring;
+					 TMap<FString, FString> Fstring;
 					auto test = ActorOptionsComponent->GetPropertyOverrides(&Fstring);
 
 					for (auto& string : *(UE::TMap<FString, FString>*)&Fstring)
 					{
 						std::cout << std::format("[{}] {}\n", string.Key().ToString(), string.Value().ToString());
-					} */
+					} 
 
 					ActorOptionsComponent->OnRep_PlayerOptionData();
 				}
@@ -164,11 +164,11 @@ void LoadIsland(const std::string SaveFileName, AFortVolume* LoadIntoVolume)
 		}
 	}
 
-	/* std::cout << "GameState->ReplOverrideData: " << GameState->ReplOverrideData << '\n';
+	std::cout << "GameState->ReplOverrideData: " << GameState->ReplOverrideData << '\n';
 
 	if (GameState->ReplOverrideData)
 	{
 		GameState->ReplOverrideData->OnRep_ReplOverrides();
 		GameState->ReplOverrideData->ReplOverrides.MarkArrayDirty();
-	} */
+	} 
 }
