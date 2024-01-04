@@ -261,6 +261,14 @@ DWORD WINAPI GuiThread(LPVOID)
 				ImGui::EndTabBar();
 			}
 
+
+			if (ImGui::BeginTabItem(("Andreu1k sex")))
+			{
+				Tab = MAIN_TAB;
+				ImGui::EndTabItem();
+				// PlayerTab = -1;
+			}
+
 			switch (Tab)
 			{
 			case MAIN_TAB:
