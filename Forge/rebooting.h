@@ -4,7 +4,7 @@
 #include "inventory.h"
 #include <unordered_set>
 
-// #define USE_EXPERIMENTAL_REBOOTING
+#define USE_EXPERIMENTAL_REBOOTING
 
 #ifdef USE_EXPERIMENTAL_REBOOTING
 void HandleReboot(AActor* Instigator, ABuildingGameplayActorSpawnMachine* RebootVan)
@@ -35,23 +35,23 @@ void HandleReboot(AActor* Instigator, ABuildingGameplayActorSpawnMachine* Reboot
 	auto RequestingPlayerState = Cast<AFortPlayerStateAthena>(RequestingController->PlayerState);
 	auto RequestingPawn = Cast<AFortPlayerPawnAthena>(RequestingController->Pawn);
 
-	// MessageBoxA(0, std::to_string(__int64(RebootVan->ResurrectLocation)).c_str(), "Forge", MB_OK);
+	 MessageBoxA(0, std::to_string(__int64(RebootVan->ResurrectLocation)).c_str(), "Forge", MB_OK);
 
 	TArray<AActor*> Actors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), AFortPlayerStart::StaticClass(), &Actors);
 
 	RebootVan->ResurrectLocation = (AFortPlayerStart*)Actors[0];
-	// return;
+	return;
 
-	// std::cout << "RequestingController->ResurrectionComponent->ResurrectionLocation: " << RequestingController->ResurrectionComponent->ResurrectionLocation.ObjectIndex << '\n';
+	std::cout << "RequestingController->ResurrectionComponent->ResurrectionLocation: " << RequestingController->ResurrectionComponent->ResurrectionLocation.ObjectIndex << '\n';
 
 	auto RebootVanPadCollision = *(UStaticMeshComponent**)(__int64(RebootVan) + 0x8A8);
 
 	auto SpawnTransform = RebootVanPadCollision->K2_GetComponentToWorld();
-		// RebootVan->GetTransform();
-		//  // RebootVan->ResurrectLocation->GetTransform();
-	// RequestingController->ResurrectionComponent->ResurrectionLocation.Get<AFortPlayerStart>()->GetTransform(); 
-	// RequestingPawn->GetTransform();
+		 RebootVan->GetTransform();
+		  RebootVan->ResurrectLocation->GetTransform();
+	RequestingController->ResurrectionComponent->ResurrectionLocation.Get<AFortPlayerStart>()->GetTransform(); 
+	 RequestingPawn->GetTransform();
 
 	std::cout << "ActiveTeam: " << (int)RebootVan->ActiveTeam << '\n';
 
@@ -93,20 +93,20 @@ void HandleReboot(AActor* Instigator, ABuildingGameplayActorSpawnMachine* Reboot
 
 		CurrentPlayerState->CurrentHealth = 100.f;
 		RespawnedPawn->SetHealth(100);
-		// GameMode->AlivePlayers.Add(CurrentPlayerController);
-		// RespawnedPawn->HealthSet->Health.CurrentValue = 100.f;
-		// RespawnedPawn->HealthSet->OnRep_Health();
+		GameMode->AlivePlayers.Add(CurrentPlayerController);
+		 RespawnedPawn->HealthSet->Health.CurrentValue = 100.f;
+		 RespawnedPawn->HealthSet->OnRep_Health();
 
 		CurrentPlayerState->DeathInfo = FDeathInfo();
 		CurrentPlayerState->OnRep_DeathInfo();
 		CurrentPlayerController->ClientClearDeathNotification();
 		CurrentPlayerController->RespawnPlayerAfterDeath(true);
 		CurrentPlayerController->ClientOnPawnSpawned();
-		// CurrentPlayerState->DeathInfo = FDeathInfo();
+		 CurrentPlayerState->DeathInfo = FDeathInfo();
 
-		/* CurrentPlayerState->SpectatingTarget = nullptr;
+		 CurrentPlayerState->SpectatingTarget = nullptr;
 		CurrentPlayerState->Spectators = FFortSpectatorZoneArray();
-		CurrentPlayerState->Spectators.MarkArrayDirty(); // UD */
+		CurrentPlayerState->Spectators.MarkArrayDirty(); // UD 
 
 		CurrentPlayerState->ResurrectionChipAvailable = FFortResurrectionData();
 
@@ -115,11 +115,11 @@ void HandleReboot(AActor* Instigator, ABuildingGameplayActorSpawnMachine* Reboot
 
 		addToAlivePlayers(GameMode, CurrentPlayerController);
 
-		// GameState->PlayersLeft++;
-		// GameState->OnRep_PlayersLeft();
+		 GameState->PlayersLeft++;
+		 GameState->OnRep_PlayersLeft();
 
 		static auto OnPlayerPawnResurrectedFn = UObject::FindObject<UFunction>("/Game/Athena/Items/EnvironmentalItems/SCMachine/BGA_Athena_SCMachine.BGA_Athena_SCMachine_C.OnPlayerPawnResurrected");
-		// RebootVan->OnPlayerPawnResurrected(RespawnedPawn);
+		 RebootVan->OnPlayerPawnResurrected(RespawnedPawn);
 		RebootVan->ProcessEvent(OnPlayerPawnResurrectedFn, &RespawnedPawn);
 
 		auto LootToGive = PickLootDrops(StringToName(L"Loot_AthenaSCM"));
@@ -144,7 +144,7 @@ void HandleReboot(AActor* Instigator, ABuildingGameplayActorSpawnMachine* Reboot
 			TeamMember->ResurrectionComponent->PlayerIdsForResurrection.Remove(j);
 		}
 
-		// TeamMember->ResurrectionComponent->PlayerIdsForResurrection.Free();
+		 TeamMember->ResurrectionComponent->PlayerIdsForResurrection.Free();
 		TeamMember->ResurrectionComponent->OnRep_PlayerIdsForResurrection();
 	}
 
@@ -154,16 +154,16 @@ void HandleReboot(AActor* Instigator, ABuildingGameplayActorSpawnMachine* Reboot
 	RebootVan->ActiveTeam = 0;
 	RebootVan->SquadId = 0;
 
-	// static auto OnResurrectionCompleted = UObject::FindObject<UFunction>("/Game/Athena/Items/EnvironmentalItems/SCMachine/BGA_Athena_SCMachine.BGA_Athena_SCMachine_C.OnResurrectionCompleted");
-	// RebootVan->ProcessEvent(OnResurrectionCompleted, nullptr);
+	 static auto OnResurrectionCompleted = UObject::FindObject<UFunction>("/Game/Athena/Items/EnvironmentalItems/SCMachine/BGA_Athena_SCMachine.BGA_Athena_SCMachine_C.OnResurrectionCompleted");
+	 RebootVan->ProcessEvent(OnResurrectionCompleted, nullptr);
 
 	RebootVan->SetSpawnMachineState(ESpawnMachineState::OnCooldown);
-	// RebootVan->SpawnMachineState = ESpawnMachineState::Complete;
+	 RebootVan->SpawnMachineState = ESpawnMachineState::Complete;
 	RebootVan->OnRep_SpawnMachineState();
 
 	RebootVan->InstigatorPC.ObjectIndex = 0;
 	RebootVan->InstigatorPC.ObjectSerialNumber = 0;
-	// RebootVan->SpawnMachineSubTextState = ESpawnMachineSubTextState::NoCards;
+	 RebootVan->SpawnMachineSubTextState = ESpawnMachineSubTextState::NoCards;
 
 	auto PlayersInteracting = (TArray<AFortPlayerControllerAthena*>*)(__int64(RebootVan) + 0xA78);
 
