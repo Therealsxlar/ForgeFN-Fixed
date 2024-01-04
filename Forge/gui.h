@@ -231,9 +231,9 @@ DWORD WINAPI GuiThread(LPVOID)
 		static int Tab = 1;
 		static std::string NAME;
 		static int PlayerTab = -1;
-		static std::vector<APlayerController*> Controllers; 
-		
-                float CurrentGameTimeSeconds = UGameplayStatics::GetTimeSeconds(GetWorld());
+		static std::vector<APlayerController*> Controllers;
+
+		float CurrentGameTimeSeconds = UGameplayStatics::GetTimeSeconds(GetWorld());
 		bool IsTimeOver = false;
 		bool HasStartedAircraft = false;
 		const float WaitTime = 200.0f; // 200 seconds because your PC might be slow. Don't change
@@ -273,7 +273,7 @@ DWORD WINAPI GuiThread(LPVOID)
 
 				if (HasStartedAircraft) {
 					return HasStartedAircraft; // Returns so it doesn't spam start aircraft. 
-                                        // This is also why the GUI closes
+					// This is also why the GUI closes
 				}
 				if (ImGui::Button("Start Aircraft"))
 				{
@@ -287,6 +287,7 @@ DWORD WINAPI GuiThread(LPVOID)
 					//UnhookFunction(DefaultFortGameModeAthena, ReadyToStartMatchFn, ReadyToStartMatchHook, (PVOID*)&ReadyToStartMatch);
 					RestartServer();
 				}
+				ImGui::Checkbox("Disable Looting on Spawn Island", &Globals::bDisableLootingOnSpawnIsland);
 
 				if (ImGui::Button("Dump Objects"))
 				{
@@ -371,7 +372,7 @@ DWORD WINAPI GuiThread(LPVOID)
 							*/
 						}
 					}
-					
+
 					if (PlayerTab != -1)
 					{
 						auto Controller = Controllers[PlayerTab];
@@ -546,13 +547,13 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 	switch (msg)
 	{
-	/* case WM_CREATE:
-	{
-		HINSTANCE hInstance = ((LPCREATESTRUCT)lParam)->hInstance;
-		HICON hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
-		SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
-		return 0;
-	} */
+		/* case WM_CREATE:
+		{
+			HINSTANCE hInstance = ((LPCREATESTRUCT)lParam)->hInstance;
+			HICON hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
+			SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+			return 0;
+		} */
 	case WM_SIZE:
 		if (g_pd3dDevice != NULL && wParam != SIZE_MINIMIZED)
 		{
