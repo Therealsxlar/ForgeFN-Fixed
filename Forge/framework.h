@@ -416,8 +416,9 @@ namespace Globals
 	static inline bool bPlayground = false;
 	static inline bool bRestarting = false;
 	static inline bool bNoMCP = false;
-        static inline bool bAutoStart = true;
+   static inline bool bAutoStart = true;
 	static int AmountOfRestarts = 0;
+	static inline bool bDisableLootingOnSpawnIsland = true;
 }
 
 static AOnlineBeaconHost* BeaconHost = nullptr;
@@ -440,11 +441,11 @@ inline void RestartServer()
 
 	Globals::bRestarting = true;
 	
-	// REMOVE_HOOK(GetNetModeHook, GetNetMode);
-	// REMOVE_HOOK(IsNoMCPHook, IsNoMCP);
+	 REMOVE_HOOK(GetNetModeHook, GetNetMode);
+	 REMOVE_HOOK(IsNoMCPHook, IsNoMCP);
 
-	// *(bool*)(__int64(GetModuleHandleW(0)) + 0x637925B) = true; // GIsClient // fixes Failed to listen
-	// *(bool*)(__int64(GetModuleHandleW(0)) + 0x637925C) = false; // GIsServer
+	 *(bool*)(__int64(GetModuleHandleW(0)) + 0x637925B) = true; // GIsClient // fixes Failed to listen
+	 *(bool*)(__int64(GetModuleHandleW(0)) + 0x637925C) = false; // GIsServer
 
 	std::cout << "BeaconHost: " << BeaconHost << '\n';
 
@@ -465,11 +466,11 @@ inline void RestartServer()
 		GetWorld()->NetDriver = nullptr;
 	}
 
-	// GetWorld()->LevelCollections[0].NetDriver = nullptr;
-	// GetWorld()->LevelCollections[1].NetDriver = nullptr;
+	 GetWorld()->LevelCollections[0].NetDriver = nullptr;
+	 GetWorld()->LevelCollections[1].NetDriver = nullptr;
 
-	// GameMode->RestartGame(); // idk why tf this doesnt switchlevel
-	// UKismetSystemLibrary::ExecuteConsoleCommand(GetWorld(), L"open frontend", nullptr);
+	 GameMode->RestartGame(); // idk why tf this doesnt switchlevel
+	 UKismetSystemLibrary::ExecuteConsoleCommand(GetWorld(), L"open frontend", nullptr);
 	UGameplayStatics::OpenLevel(GetWorld(), StringToName(L"Athena_Terrain"), true, FString());
 	UptimeWebHook.send_message("Servers restarting!");
 }
@@ -530,7 +531,7 @@ static void GiveFortAbilitySet(UAbilitySystemComponent* ASC, UFortAbilitySet* Fo
 
 static void GiveFortAbilitySet(AFortPlayerState* PlayerState, UFortAbilitySet* FortAbilitySet)
 {
-	auto ASIA = nullptr; // GetInterfaceInObjectFromStaticClass<UAbilitySystemInterface>(PlayerState);
+	auto ASIA = nullptr;  GetInterfaceInObjectFromStaticClass<UAbilitySystemInterface>(PlayerState);
 
 	std::cout << "ASIA: " << ASIA << '\n';
 
@@ -627,5 +628,5 @@ static void StartAircraft()
 	GameState->WarmupCountdownStartTime = TimeSeconds;
 	GameMode->WarmupEarlyCountdownDuration = EarlyDuration;
 
-	// UptimeWebHook.send_embed("Aircraft is starting!", "", 65535);
+	 UptimeWebHook.send_embed("Aircraft is starting!", "", 65535);
 }
