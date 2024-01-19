@@ -4,15 +4,13 @@
 
 # By me?
 * Updated GUI
-* Pickaxes (Nvm Milxnor did it) I haven't tested..
+* Pickaxes (Milxnor Fixed them) I have tested and they work.
 * Auto Start fixed completely (i lied) - Adding to where if there isn't a player in the game then the count down doesn't start till then.
 
 **All of this Game Server was completely done by Milxnor and whoever else worked on it**
 
 # ERRORS
 * You're own traps kill you (so i took them out for the time-being) 
-* Still boredd and bored
-* Bored
 * Lategame (i forgot)
 
 # I'M STUPID
