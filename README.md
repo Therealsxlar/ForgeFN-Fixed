@@ -5,7 +5,7 @@
 # By me?
 * Updated GUI
 * Pickaxes (Milxnor Fixed them) I have tested and they work.
-* ![Pickaxes:](https://github.com/Therealsxlar/ForgeFN-Fixed/assets/104775507/76bc380d-e7f8-43e0-9f63-c59adc4fafd2)
+![Pickaxes:](https://github.com/Therealsxlar/ForgeFN-Fixed/assets/104775507/76bc380d-e7f8-43e0-9f63-c59adc4fafd2)
 
 * Auto Start fixed completely (i lied) - Adding to where if there isn't a player in the game then the count down doesn't start till then.
 
