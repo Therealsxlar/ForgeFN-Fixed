@@ -4,7 +4,7 @@
 
 # By me?
 * Updated GUI
-* Pickaxes (i understand im just to lazy to do it rn)
+* Pickaxes (Nvm Milxnor did it) I haven't tested..
 * Auto Start fixed completely (i lied) - Adding to where if there isn't a player in the game then the count down doesn't start till then.
 
 **All of this Game Server was completely done by Milxnor and whoever else worked on it**
