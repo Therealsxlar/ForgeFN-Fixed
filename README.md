@@ -3,7 +3,7 @@
 * Doesn't mean you SKID it and host for yourself without giving credits.
 
 # By me?
-* Updated GUI
+* Updated GUI (working on it now)
 * Pickaxes (Milxnor Fixed them) I have tested and they work.
 ![Pickaxes:](https://github.com/Therealsxlar/ForgeFN-Fixed/assets/104775507/76bc380d-e7f8-43e0-9f63-c59adc4fafd2)
 
