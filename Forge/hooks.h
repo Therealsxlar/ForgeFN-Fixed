@@ -470,21 +470,18 @@ bool IsResurrectionEnabledHook(AFortGameStateAthena* GameState, AFortPlayerPawn*
 
 void FillVendingMachines()
 {
-    TArray<AActor*> ItemCollectorActors;
-    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABuildingItemCollectorActor::StaticClass(), &ItemCollectorActors);
+	TArray<AActor*> OutActors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABuildingItemCollectorActor::StaticClass(), &OutActors);
 
-    FName OverrideLootTierGroup = FName("Loot_AthenaVending");
+	auto OverrideLootTierGroup = UKismetStringLibrary::Conv_StringToName(L"Loot_AthenaVending"); // ItemCollector->GetLootTierGroupOverride();
 
-    for (AActor* Actor : ItemCollectorActors)
-    {
-        ABuildingItemCollectorActor* ItemCollector = Cast<ABuildingItemCollectorActor>(Actor);
+	for (int i = 0; i < OutActors.Num(); i++)
+	{
+		auto ItemCollector = (ABuildingItemCollectorActor*)OutActors[i];
 
-        if (ItemCollector)
-        {
-            FillVendingMachine(ItemCollector, OverrideLootTierGroup);
-        }
-    }
-} // rewrite??????? :))))))
+		FillVendingMachine(ItemCollector, OverrideLootTierGroup);
+	}
+}
 
 UClass** sub_7FF68F8816C0HOOK(__int64 a1, UClass** a2)
 {
