@@ -29,6 +29,7 @@ DWORD WINAPI InputThread(LPVOID)
 
         else if (GetAsyncKeyState(VK_F3) & 1)
         {
+            FillVendingMachines();
         }
 
         Sleep(1000 / 30);
