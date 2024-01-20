@@ -468,6 +468,24 @@ bool IsResurrectionEnabledHook(AFortGameStateAthena* GameState, AFortPlayerPawn*
 	return true;
 }
 
+void FillVendingMachines()
+{
+    TArray<AActor*> ItemCollectorActors;
+    UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABuildingItemCollectorActor::StaticClass(), &ItemCollectorActors);
+
+    FName OverrideLootTierGroup = FName("Loot_AthenaVending");
+
+    for (AActor* Actor : ItemCollectorActors)
+    {
+        ABuildingItemCollectorActor* ItemCollector = Cast<ABuildingItemCollectorActor>(Actor);
+
+        if (ItemCollector)
+        {
+            FillVendingMachine(ItemCollector, OverrideLootTierGroup);
+        }
+    }
+} // rewrite??????? :))))))
+
 UClass** sub_7FF68F8816C0HOOK(__int64 a1, UClass** a2)
 {
 	// std::cout << std::format("sub_7FF68F8816C0HOOKRET: 0x{:x}\n", __int64(_ReturnAddress()) - __int64(GetModuleHandleW(0)));
@@ -1460,6 +1478,7 @@ void HandleStartingNewPlayerHook(AFortGameModeAthena* GameMode, AFortPlayerContr
 		AddHook(OnSafeZoneStateChangeFn, OnSafeZoneStateChangeHook);
 
 		SpawnFloorLoot();
+		FillVendingMachines();
 		
 		TArray<AActor*> AllBGASpawners;
 		UGameplayStatics::GetAllActorsOfClass(GetWorld(), ABGAConsumableSpawner::StaticClass(), &AllBGASpawners);
