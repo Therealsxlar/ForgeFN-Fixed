@@ -1,4 +1,6 @@
-# Fortnite GS
+# Fortnite Game-Server
+
+* Oh I forgot (I'm going to rewrite prob i've gotten a lil bit better at game-servers)
 * Forge is a 10.40 open-sourced Game Server used for Educational Purposes Only.
 * Doesn't mean you **SKID** it and host for yourself without giving credits.
 
