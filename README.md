@@ -5,14 +5,14 @@
 * Doesn't mean you **SKID** it and host for yourself without giving credits.
 
 ![Pickaxes:](https://github.com/Therealsxlar/ForgeFN-Fixed/assets/104775507/76bc380d-e7f8-43e0-9f63-c59adc4fafd2)
-* Skibidi Pickaxes
++ Pickaxes
 
 * Auto Start exists, update soon.
 
 **All of this Game Server was completely done by Milxnor and whoever else worked on it**
 
 # ERRORS
-* You're own traps kill you (so i took them out for the time-being) 
+* your own traps kill you (so i took them out for the time-being) ( yap yap yap ) you cant take them out stupid sxlar
 
 # More
 * if you get an error and it says detours just uninstall it and reinstall it
